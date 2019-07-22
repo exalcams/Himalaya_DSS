@@ -1,0 +1,77 @@
+<div id="loginHistory" class="page-layout simple right-sidebar">
+  <div class="center" fusePerfectScrollbar>
+    <div class="container" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+      <div fxFlex>
+        <form class="mat-card mx-12 my-8 py-8 px-16 borderRadius" autocomplete="off" fxLayout="row" fxLayout.xs="column"
+          fxLayoutAlign="start" name="form" [formGroup]="loginHistoryFormGroup" novalidate>
+          <div fxFlex>
+            <mat-form-field color="accent">
+              <input matInput placeholder="From date" [matDatepicker]="picker1" formControlName="fromDate"
+              (keydown)="onKeydown($event)" (dateChange)="DateSelected()" required>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error
+                *ngIf="loginHistoryFormGroup.get('fromDate').touched && loginHistoryFormGroup.get('fromDate').hasError('required')">
+                From date is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex>
+            <mat-form-field color="accent">
+              <input matInput placeholder="To Date" [matDatepicker]="picker2" formControlName="toDate"
+              (keydown)="onKeydown($event)" (dateChange)="DateSelected()" required>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 color="primary"></mat-datepicker>
+              <mat-error
+                *ngIf="loginHistoryFormGroup.get('toDate').touched && loginHistoryFormGroup.get('toDate').hasError('required')">
+                To date is required
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="isDateError" style="color:#f44336;font-size: 12px;margin-top: -16px">
+              To date should not be less than from date
+            </div>
+          </div>
+          <div fxFlex>
+            <button class="mt-12 hbg" mat-raised-button (click)="GetAllUserLoginHistoriesBasedOnDate()">
+              Get Login History</button>
+          </div>
+        </form>
+      </div>
+      <div fxFlex>
+        <mat-card class="mx-12 mb-8 p-8 borderRadius" fxLayout="column">
+          <div class="h2 pl-12 pt-8 successColor" fxFlex>Login History</div>
+          <mat-form-field class="pl-12" fxflex>
+            <input fxFlex matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          </mat-form-field>
+          <div class="mat-elevation-z8 m-4" fxFlex>
+            <table mat-table [dataSource]="LoginHistoryDataSource" matSort style="width:100%">
+
+              <ng-container matColumnDef="UserName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.UserName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="LoginTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> LoginTime </th>
+                <td mat-cell *matCellDef="let row"> {{row.LoginTime | date : 'dd-MM-yyyy hh:mm:ss a'}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="LogoutTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> LogoutTime </th>
+                <td mat-cell *matCellDef="let row"> {{row.LogoutTime | date : 'dd-MM-yyyy hh:mm:ss a'}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="LoginHistoryColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: LoginHistoryColumns;">
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <mat-progress-spinner *ngIf="IsProgressBarVisibile" class="ProgressBarPostion" color="accent" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+  <div id="overlay" *ngIf="IsProgressBarVisibile"></div>
+</div>

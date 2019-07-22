@@ -1,0 +1,19 @@
+@import "src/@fuse/scss/fuse";
+
+login-history {
+  .mat-icon {
+    cursor: pointer;
+  }
+
+  .borderRadius {
+    border-radius: 10px !important;
+  }
+
+  .hbg {
+    background-color: #006666 !important;
+    color: white !important;
+  }
+  .successColor {
+    color: #449d44 !important;
+  }
+}

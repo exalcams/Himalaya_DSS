@@ -1,0 +1,76 @@
+<form class="mat-card mat-elevation-z4 p-24" autocomplete="off" fxLayout="column" fxLayoutAlign="start"
+  fxFlex="1 0 auto" name="form" [formGroup]="userConfigMainFormGroup" novalidate>
+  <div class="h2 mb-12">{{user.ID?'Update':'Create'}} Configuration</div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="p-8" fxFlex="100">
+      <mat-select placeholder="User Name" formControlName="userName" required>
+        <mat-option *ngFor="let usr of AllNormalUsers" [value]="usr">{{usr}}</mat-option>
+      </mat-select>
+      <!-- <input matInput placeholder="User Name" formControlName="userName" [readonly]="user.UserID"
+        [class.disabledClass]="user.UserID" required> -->
+      <mat-error
+        *ngIf="userConfigMainFormGroup.get('userName').touched &&  userConfigMainFormGroup.get('userName').hasError('required')">
+        User Name required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="p-8" fxFlex="100">
+      <!-- <input matInput placeholder="Plant" formControlName="plant" required> -->
+      <mat-select placeholder="Plant" formControlName="plant" required>
+        <mat-option *ngFor="let usr of AllPlantViews" [value]="usr.Plant_ID">{{usr.Plant_Name}}
+          <span>({{usr.Plant_ID}})</span></mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userConfigMainFormGroup.get('plant').touched && userConfigMainFormGroup.get('plant').hasError('required')">
+        Plant is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="p-8" fxFlex="100">
+      <!-- <input matInput placeholder="Document Type" formControlName="documentType" -->
+      <mat-select placeholder="Document Type" formControlName="documentType" required>
+        <mat-option *ngFor="let usr of AllDocumentTypeViews" [value]="usr.Doc_Type_ID">{{usr.Doc_Type_Name}}
+            <span>({{usr.Doc_Type_ID}})</span></mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userConfigMainFormGroup.get('documentType').touched && userConfigMainFormGroup.get('documentType').hasError('required')">
+        Document Type is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 0 auto">
+    <mat-form-field class="p-8" fxFlex="100">
+      <!-- <input matInput placeholder="Priority" formControlName="priority"  required> -->
+      <mat-select placeholder="Priority" formControlName="priority" required>
+        <mat-option *ngFor="let usr of AllPriorityViews" [value]="usr.Priority_ID">{{usr.Priority_Name}}
+            <span>({{usr.Priority_ID}})</span></mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userConfigMainFormGroup.get('priority').touched &&  userConfigMainFormGroup.get('priority').hasError('required')">
+        Priority is required</mat-error>
+    </mat-form-field>
+  </div>
+  <!-- <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 0 auto">
+    <mat-form-field class="p-8" fxFlex="50">
+      <input matInput placeholder="Display Title" formControlName="displayTitle"
+        required>
+      <mat-error
+        *ngIf="userConfigMainFormGroup.get('displayTitle').touched &&  userConfigMainFormGroup.get('displayTitle').hasError('required')">
+        Display Title is required</mat-error>
+    </mat-form-field>
+  </div> -->
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button mat-raised-button type="button" (click)="ResetControl()" *ngIf="!user.ID" style="margin-right:10px">
+      Clear
+    </button>
+    <button mat-raised-button class="hbo" type="button" (click)="DeleteClicked()" *ngIf="user.ID"
+      style="margin-right:10px">
+      Delete
+    </button>
+    <button mat-raised-button class="hbg" type="button" (click)="SaveClicked()">
+      {{user.ID?'Update':'Create'}}
+    </button>
+  </div>
+</form>

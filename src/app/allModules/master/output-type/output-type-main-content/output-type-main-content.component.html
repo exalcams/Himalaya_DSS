@@ -1,0 +1,35 @@
+<form class="mat-card mat-elevation-z4 p-24" autocomplete="off" fxLayout="column" fxLayoutAlign="start"
+    fxFlex="1 0 auto" name="form" [formGroup]="OutputTypeMainFormGroup">
+
+    <div class="h2 mb-24">{{OutputType.ID?'Update':'Create'}} Output type</div>
+    <div fxLayout="row wrap" fxLayoutAlign="start">
+        <mat-form-field fxFlex="100">
+            <input matInput placeholder="Output type ID" formControlName="OutputTypeID" 
+            [readonly]="OutputType.ID" [class.disabledClass]="OutputType.ID" required>
+            <mat-error
+                *ngIf="OutputTypeMainFormGroup.get('OutputTypeID').touched && OutputTypeMainFormGroup.get('OutputTypeID').hasError('required')">
+                Output type ID required</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="start" fxFlex="1 0 auto">
+        <mat-form-field fxFlex="100">
+            <input matInput placeholder="Output type name" formControlName="OutputTypeName" required>
+            <mat-error
+                *ngIf="OutputTypeMainFormGroup.get('OutputTypeName').touched && OutputTypeMainFormGroup.get('OutputTypeName').hasError('required')">
+                Output type name required</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="end">
+        <button mat-raised-button type="button" (click)="ResetControl()" *ngIf="!OutputType.ID"
+            style="margin-right:10px">
+            Clear
+        </button>
+        <button mat-raised-button class="hbo" type="button" (click)="DeleteClicked()" *ngIf="OutputType.ID"
+            style="margin-right:10px">
+            Delete
+        </button>
+        <button mat-raised-button class="hbg" type="button" (click)="SaveClicked()">
+            {{OutputType.ID?'Update':'Create'}}
+        </button>
+    </div>
+</form>

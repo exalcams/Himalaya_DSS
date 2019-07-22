@@ -1,0 +1,144 @@
+@import "src/@fuse/scss/fuse";
+
+user-side-bar {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .accentT{
+        background-color: #f89406;
+        color: white;
+    }
+
+
+    .sidenav-header {
+
+        mat-toolbar {
+            border-bottom: 1px solid;
+
+            .avatar-wrapper {
+
+                .avatar,
+                .status {
+                    cursor: pointer;
+                }
+            }
+
+            .search {
+                height: 36px;
+                line-height: 36px;
+                padding: 8px;
+                font-size: 13px;
+                border-radius: 18px;
+                border: 1px solid;
+                overflow: hidden;
+                background-color: #fafafa;
+                border-color: rgba(0,0,0,.12);
+                @include mat-elevation(1);
+
+                mat-icon.s-16 {
+                    color: rgba(0,0,0,.54) !important;
+                }
+
+                .icon {
+                    margin: 0;
+                    color: rgba(0,0,0,.54);
+                }
+
+                input {
+                    padding: 0 12px 0 8px;
+                    background-color: #fafafa;
+                    height: 36px;
+                    border: none;
+                }
+            }
+        }
+    }
+
+    .sidenav-content {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+
+        .contact-list,
+        .chat-list {
+
+            .mat-subheader {
+                padding-left: 16px;
+                font-size: 20px;
+                font-weight: 300;
+                height: 88px;
+                line-height: 88px;
+            }
+
+            .contact {
+                white-space: normal;
+                text-align: left;
+                letter-spacing: .010em;
+                min-height: 88px;
+                border-bottom: 1px solid;
+                padding: 16px;
+                font-weight: 400;
+                border-bottom-color: rgba(0, 0, 0, 0.12);
+
+                .avatar-wrapper {
+
+                    .avatar {
+                        margin-right: 16px;
+                    }
+                }
+
+                .contact-name {
+                    font-size: 16px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .contact-last-message {
+                    line-height: normal;
+                    margin-top: 0;
+                }
+
+                .contact-mood {
+                    line-height: normal;
+                    margin-top: 0;
+                }
+
+                .unread-message-count {
+                    border-radius: 50%;
+                    text-align: center;
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                }
+            }
+        }
+
+        .no-results-message {
+            position: absolute;
+            width: 100%;
+            height: 88px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 400;
+        }
+    }
+    .side-bar-items{
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding: 0 24px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 0 25px 25px 0;
+        margin-right: 7px;
+    }
+    .hbg {
+        background-color: #006666 !important; 
+        color: white !important;
+      }
+      .hbo{
+        background-color: #f89406 !important;
+        color: white !important;
+      }
+}

@@ -1,0 +1,75 @@
+<div class="sidenav-header">
+    <mat-toolbar>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-16">search</mat-icon>
+                    <input [(ngModel)]="searchText" type="text" placeholder="Search" fxFlex>
+                </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+                <button mat-mini-fab class="mr-8 hbg" matTooltip="Add user configuration" (click)="clearUser()">
+                    <mat-icon aria-label="Add User configuration">add</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+
+<!-- <div class="sidenav-content" fusePerfectScrollbar fxFlex>
+  <div *fuseIfOnDom [@animateStagger]="{value:'50'}">
+      <div class="chat-list" fxLayout="column">
+          <button mat-button class="contact" *ngFor="let usr of AllUsers | filter: searchText" (click)="loadSelectedUser(usr)"
+              ngClass="{'unread':contact.unread}" [@animate]="{value:'*',params:{y:'100%'}}" [style.background-color]="selectID==usr.UserID?'lightgrey':'white'">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <div fxLayout="row" fxFlex>
+                      <div class="" fxFlex fxLayout="column" fxLayoutAlign="center start">
+                          <div class="contact-name">{{usr.UserName}}</div>
+                      </div>
+                      <div fxLayout="column" fxLayoutAlign="center end">
+                          <div class="contact-last-message-time">
+                              {{usr.CreatedOn | date}}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </button>
+      </div>
+      <div *ngIf="(AllUsers | filter: searchText).length === 0" class="no-results-message">
+          No results..
+      </div>
+  </div>
+</div> -->
+
+<div class="content py-16" fusePerfectScrollbar fxFlex>
+    <div *ngFor="let usr of AllUsers | filter: searchText">
+        <div [attr.aria-label]="usr.UserName">
+            <div fxLayout="column" fxLayoutAlign="center" class="side-bar-items" matRipple (click)="loadSelectedUser(usr)"
+                [ngClass]="{'active accentT':selectID==usr.ID}">
+                <div fxLayout class="pt-4">
+                    <div fxFlex fxLayoutAlign="start center">
+                        <span class="key">User : </span>
+                        <span class="val pl-8">{{usr.UserName}}</span>
+                    </div>
+                    <div fxFlex fxLayoutAlign="end center">
+                        <span class="key">Plant : </span>
+                        <span class="val pl-8">{{usr.Plant}}</span>
+                    </div>
+                </div>
+                <div fxLayout class="pt-4">
+                    <div fxFlex fxLayoutAlign="start center">
+                        <span class="key">Document type : </span>
+                        <span class="val pl-8">{{usr.DocumentType}}</span>
+                    </div>
+                    <div fxFlex fxLayoutAlign="end center">
+                        <span class="key">Priority : </span>
+                        <span class="val pl-8">{{usr.Priority}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="(AllUsers | filter: searchText).length === 0" class="no-results-message">
+        <span class="pl-12"> No results..</span>
+    </div>
+</div>

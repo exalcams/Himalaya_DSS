@@ -1,0 +1,59 @@
+<div class="sidenav-header">
+    <mat-toolbar>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-16">search</mat-icon>
+                    <input [(ngModel)]="searchText" type="text" placeholder="Search" fxFlex>
+                </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+                <button mat-mini-fab class="mr-8 hbg" matTooltip="Add Output type" (click)="clearOutputType()">
+                    <mat-icon aria-label="Add Output type">add</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<!-- <div class="sidenav-content" fusePerfectScrollbar fxFlex>
+  <div *fuseIfOnDom [@animateStagger]="{value:'50'}">
+      <div class="chat-list" fxLayout="column">
+          <button mat-button class="contact" *ngFor="let ap of AllOutputTypes | filter: searchText" (click)="loadSelectedOutputType(ap)"
+              ngClass="{'unread':contact.unread}" [@animate]="{value:'*',params:{y:'100%'}}" [style.background-color]="selectID==ap.ID?'lightgrey':'white'">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <div fxLayout="row" fxFlex>
+                      <div class="" fxFlex fxLayout="column" fxLayoutAlign="center start">
+                          <div class="contact-name">{{ap.OutputTypeName}}</div>
+                      </div>
+                      <div fxLayout="column" fxLayoutAlign="center end">
+                          <div class="contact-last-message-time">
+                              {{ap.CreatedOn | date}}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </button>
+      </div>
+      <div *ngIf="(AllOutputTypes | filter: searchText).length === 0" class="no-results-message">
+          No results..
+      </div>
+  </div>
+</div> -->
+<div class="content py-16" fusePerfectScrollbar fxFlex>
+    <div *ngFor="let ap of AllOutputTypes | filter: searchText">
+        <div [attr.aria-label]="ap.OutputTypeName">
+            <div fxLayout="row" fxLayoutAlign="start center" class="side-bar-items" matRipple
+                (click)="loadSelectedOutputType(ap)" [ngClass]="{'active accentT':selectID==ap.ID}">
+                <div fxFlex="30%" fxLayoutAlign="start center">
+                    {{ap.OutputType_ID}}
+                </div>
+                <div fxFlex="70%" fxLayoutAlign="start center">
+                    {{ap.OutputType_Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="(AllOutputTypes | filter: searchText).length === 0" class="no-results-message">
+        <span class="pl-12"> No results..</span>
+    </div>
+</div>

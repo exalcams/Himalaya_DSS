@@ -1,0 +1,20 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar class="mat-accent m-0 hbgg">
+    <mat-toolbar-row fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">Invoice</span>
+      <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content>
+    <iframe style="width:726px;height:1024px;" [src]="DSSConfigurationData"></iframe>
+    <!-- <embed style="width:726px;height:1024px;" [attr.src]="DSSConfigurationData" type="application/pdf" width="100%" height="100%"> -->
+    <!-- <pdf-viewer [src]="DSSConfigurationData" [render-text]="true" style="display: block;"></pdf-viewer> -->
+  </div>
+
+  <mat-dialog-actions class="m-0 p-16" align="end">
+    <button mat-button class="hbo" type="button" (click)="CloseClicked()">Cancel</button>
+  </mat-dialog-actions>
+</div>

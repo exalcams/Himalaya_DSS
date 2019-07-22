@@ -1,0 +1,30 @@
+@import "src/@fuse/scss/fuse";
+
+.pdf-dialog {
+    .mat-radio-button {
+        margin: 0 5px;
+      }
+    .mat-dialog-container {
+        padding: 0px;
+        width:740px;
+        // width:60vw !important;
+        overflow-x: hidden;
+        border-radius: 10px;
+    }
+    .mat-dialog-content {
+        margin: 0px;
+        padding: 0px;
+        padding-left: 5px;
+    }
+    
+  .hbgg{
+    background-color: #006666 !important;
+  }
+
+  .hbg {
+    color: #006666 !important; 
+  }
+  .hbo{
+    color: #f89406 !important;
+  }
+}

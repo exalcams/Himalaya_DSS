@@ -1,0 +1,35 @@
+<form class="mat-card mat-elevation-z4 p-24" autocomplete="off" fxLayout="column" fxLayoutAlign="start"
+    fxFlex="1 0 auto" name="form" [formGroup]="PlantMainFormGroup">
+
+    <div class="h2 mb-24">{{Plant.ID?'Update':'Create'}} Plant</div>
+    <div fxLayout="row wrap" fxLayoutAlign="start">
+        <mat-form-field fxFlex="100">
+            <input matInput placeholder="Plant id" formControlName="PlantID" 
+            [readonly]="Plant.ID" [class.disabledClass]="Plant.ID" required>
+            <mat-error
+                *ngIf="PlantMainFormGroup.get('PlantID').touched && PlantMainFormGroup.get('PlantID').hasError('required')">
+                Plant id required</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="start" fxFlex="1 0 auto">
+        <mat-form-field fxFlex="100">
+            <input matInput placeholder="Plant name" formControlName="PlantName" required>
+            <mat-error
+                *ngIf="PlantMainFormGroup.get('PlantName').touched && PlantMainFormGroup.get('PlantName').hasError('required')">
+                Plant name required</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="end">
+        <button mat-raised-button type="button" (click)="ResetControl()" *ngIf="!Plant.ID"
+            style="margin-right:10px">
+            Clear
+        </button>
+        <button mat-raised-button class="hbo" type="button" (click)="DeleteClicked()" *ngIf="Plant.ID"
+            style="margin-right:10px">
+            Delete
+        </button>
+        <button mat-raised-button class="hbg" type="button" (click)="SaveClicked()">
+            {{Plant.ID?'Update':'Create'}}
+        </button>
+    </div>
+</form>

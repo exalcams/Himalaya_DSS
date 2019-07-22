@@ -1,0 +1,141 @@
+@import "src/@fuse/scss/fuse";
+
+adminDashboard{
+
+    .content {
+
+        .cards {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            .card {
+                display: flex;
+                align-items: flex-start;
+                padding: 10px 5px 5px 5px;
+                margin-bottom: 10px;
+
+                .card-preview {
+                    display: flex;
+                    min-width: 200px;
+                }
+
+                .card-source {
+                    display: none;
+                }
+            }
+        }
+
+        &.source {
+
+            .cards {
+                flex-direction: column;
+
+                .card {
+                    width: 100%;
+                    margin-bottom: 24px;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+                    .card-source {
+                        background: #263238;
+                        display: flex !important;
+                        flex: 1;
+                        max-height: 400px;
+                        min-width: 400px;
+                        margin-left: 24px;
+                        overflow: auto;
+                        -webkit-overflow-scrolling: touch;
+                    }
+                }
+            }
+        }
+    }
+
+    .mat-icon{
+        cursor: pointer !important
+    }
+
+    .formGroupStyle{
+        margin:0px 10px;
+        border-radius: 10px;
+        padding: 0px 20px
+    }
+    .formRowStyle{
+        margin:0px 0px -12px 0px;
+    }
+    .TileClass{
+        border-radius: 10px;
+        padding: 10px 0px;
+        cursor: pointer;
+    }
+    .successBgColor{
+        background-image: linear-gradient(to right top, #1f551f, #2a7a2f, #33a240, #3acb52, #3ef666) !important;
+    }
+
+    .primaryBgColor{
+        background-image: linear-gradient(to right top, #00356a, #00659b, #0099c7, #12cfeb) !important;
+    }
+   
+    .warningBgColor{
+        background-image: linear-gradient(to right top, #aa690e, #bd8226, #d19c3b, #e3b652, #f6d169) !important;
+    }
+
+    .dangerBgColor{
+        background-image: linear-gradient(to right top, #d10c25, #de353e, #ea5057, #f46870, #fd7f88) !important;
+    }
+
+    .primaryColor{
+        color: #337ab7 !important;
+    }
+
+    .successColor{
+        color: #449d44 !important;
+    }
+
+    .warningColor{
+        color: #ec971f !important;
+    }
+
+    .dangerColor{
+        color: #d9534f !important;
+    }
+
+    .textStyle{
+        color:white !important;
+        text-align: center !important;
+    }
+    .whiteFont{
+        color: white;
+    }
+    .vertCenter{
+        vertical-align: middle;
+    }
+    .titleClass{
+        @extend .whiteFont;
+        @extend .vertCenter;
+        padding-left: 15%;
+    }
+    .subTitleClass{
+        @extend .titleClass;
+        border-left: 1px solid white;
+    }
+    .cntr{
+        text-align: center;
+        margin: 5px;
+    }
+
+    .add-config-button {
+        // position: relative;
+        // top: 168px;
+        // left: 16px;
+        background-color: #006666 !important;
+        margin-right: 10px;
+        z-index: 999;
+    }
+    .hbg {
+        background-color: #006666 !important;
+        color: white !important;
+    }
+}

@@ -1,0 +1,195 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar class="mat-accent m-0 hbgg">
+        <mat-toolbar-row fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{DSSConfigurationData.CONFIG_ID?'Update':'Create'}} Configuration</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+        <form name="ConfigurationForm" [formGroup]="ConfigurationFormGroup" fxLayout="column" fxFlex>
+            <!-- <mat-form-field>
+                <mat-select placeholder="Document Type" formControlName="DocumentType"
+                    [disabled]="DSSConfigurationData.ID" required>
+                    <mat-option *ngFor="let doc1 of AllDocumentTypeNames" [value]="doc1">
+                        {{doc1}}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('DocumentType').touched && ConfigurationFormGroup.get('DocumentType').hasError('required')">
+                    Document Type is required
+                </mat-error>
+            </mat-form-field> -->
+            <!-- <mat-form-field>
+                <input matInput placeholder="Plant" formControlName="Plant" (input)="onPlantChange($event.target.value)"
+                    [readonly]="DSSConfigurationData.ID" [class.disabledClass]="DSSConfigurationData.ID" required>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('Plant').touched && ConfigurationFormGroup.get('Plant').hasError('required')">
+                    Plant is required
+                </mat-error>
+            </mat-form-field> -->
+            <mat-form-field>
+                <mat-select placeholder="Plant" (selectionChange)="onPlantChange($event.value)" formControlName="Plant"
+                    [disabled]="DSSConfigurationData.CONFIG_ID" required>
+                    <mat-option *ngFor="let ema of AllFilteredPlants" [value]="ema.Plant_ID">
+                        {{ema.Plant_ID}} <span>({{ema.Plant_Name}})</span>
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('Plant').touched && ConfigurationFormGroup.get('Plant').hasError('required')">
+                    Plant is required
+                </mat-error>
+            </mat-form-field>
+            <!-- <mat-form-field>
+                <mat-select placeholder="Document Type" formControlName="DocumentType"
+                    [disabled]="DSSConfigurationData.CONFIG_ID" required>
+                    <mat-option *ngFor="let doc1 of AllFilteredDocumentTypes" [value]="doc1.Doc_Type_ID">
+                        {{doc1.Doc_Type_Name}} <span>({{doc1.Doc_Type_ID}})</span>
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('DocumentType').touched && ConfigurationFormGroup.get('DocumentType').hasError('required')">
+                    Document Type is required
+                </mat-error>
+            </mat-form-field> -->
+            <!-- <mat-form-field>
+                <mat-select placeholder="Output Type" formControlName="OutputType" [disabled]="DSSConfigurationData.ID"
+                    required>
+                    <mat-option *ngFor="let doc1 of AllOutputTypes" [value]="doc1.OutputType_ID">
+                        {{doc1.OutputType_Name}}  <span>({{doc1.OutputType_ID}})</span>
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('OutputType').touched && ConfigurationFormGroup.get('OutputType').hasError('required')">
+                    Output Type is required
+                </mat-error>
+            </mat-form-field> -->
+            <div style="margin:10px 0px;color: rgba(0, 0, 0, 0.54);display: none;">
+                <mat-label class="h3">Auto sign * </mat-label>
+                <mat-radio-group formControlName="AutoSign" required>
+                    <mat-radio-button value='1'>Yes</mat-radio-button>
+                    <mat-radio-button value='0'>No</mat-radio-button>
+                </mat-radio-group>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('AutoSign').touched && ConfigurationFormGroup.get('AutoSign').hasError('required')">
+                    Auto sign is required
+                </mat-error>
+            </div>
+            <mat-form-field>
+                <mat-select placeholder="Certificate Name" formControlName="CertificateName"
+                    (selectionChange)="GetExpiryDate($event.value)" required>
+                    <mat-option *ngFor="let cert of AllCertificates" [value]="cert.CertificateName">
+                        {{cert.CertificateName}}</mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('CertificateName').touched && ConfigurationFormGroup.get('CertificateName').hasError('required')">
+                    Certificate Name required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field color="accent" style="display: none">
+                <input matInput placeholder="Expiry Date" [readonly]="DSSConfigurationData" [matDatepicker]="picker2"
+                    formControlName="ExpiryDate" required>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('ExpiryDate').touched && ConfigurationFormGroup.get('ExpiryDate').hasError('required')">
+                    Expiry Date is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Priority1 User" (selectionChange)="Priority1UserSelected($event.value)"
+                    formControlName="Priority1User" required>
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
+                        [disabled]="ema.IsSelected">{{ema.UserName}}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('Priority1User').touched && ConfigurationFormGroup.get('Priority1User').hasError('required')">
+                    Priority1 User required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Priority2 User" (selectionChange)="PriorityUserSelected($event.value)"
+                    formControlName="Priority2User">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
+                        [disabled]="ema.IsSelected">{{ema.UserName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error
+                *ngIf="ConfigurationFormGroup.get('Priority2User').touched && ConfigurationFormGroup.get('Priority2User').hasError('required')">
+                Priority2 User required
+            </mat-error> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Priority3 User" (selectionChange)="PriorityUserSelected($event.value)"
+                    formControlName="Priority3User">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
+                        [disabled]="ema.IsSelected">{{ema.UserName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error
+                *ngIf="ConfigurationFormGroup.get('Priority3User').touched && ConfigurationFormGroup.get('Priority3User').hasError('required')">
+                Priority3 User required
+            </mat-error> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Priority4 User" (selectionChange)="PriorityUserSelected($event.value)"
+                    formControlName="Priority4User">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
+                        [disabled]="ema.IsSelected">{{ema.UserName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error
+                *ngIf="ConfigurationFormGroup.get('Priority4User').touched && ConfigurationFormGroup.get('Priority4User').hasError('required')">
+                Priority4 User required
+            </mat-error> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Priority5 User" (selectionChange)="PriorityUserSelected($event.value)"
+                    formControlName="Priority5User">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
+                        [disabled]="ema.IsSelected">{{ema.UserName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error
+                *ngIf="ConfigurationFormGroup.get('Priority5User').touched && ConfigurationFormGroup.get('Priority5User').hasError('required')">
+                Priority5 User required
+            </mat-error> -->
+            </mat-form-field>
+            <!-- <mat-form-field>
+                <mat-select placeholder="Signed Authority" (selectionChange)="SignedAuthoritySelected($event.value)"
+                    [disabled]="DSSConfigurationData.ID" formControlName="SignedAuthority" required>
+                    <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName">{{ema.UserName}} - {{ema.Priority}}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('SignedAuthority').touched && ConfigurationFormGroup.get('SignedAuthority').hasError('required')">
+                    Signed Authority required
+                </mat-error>
+            </mat-form-field>-->
+
+            <!-- <mat-form-field>
+                <input matInput name="Display Title1" placeholder="Display Title1" formControlName="DisplayTitle1">
+                <mat-error
+                    *ngIf="ConfigurationFormGroup.get('DisplayTitle1').touched && ConfigurationFormGroup.get('DisplayTitle1').hasError('required')">
+                    Display Title1 is required
+                </mat-error>
+            </mat-form-field> -->
+            <mat-form-field>
+                <input matInput name="Display Title2" placeholder="Display Title2" formControlName="DisplayTitle2">
+            </mat-form-field>
+
+        </form>
+    </div>
+
+    <mat-dialog-actions class="m-0 p-16" fxLayoutAlign="space-between center">
+        <button mat-button type="button" class="hbo" (click)="CloseClicked()">Cancel</button>
+        <button mat-button type="button" class="hbg" (click)="YesClicked()">Yes</button>
+    </mat-dialog-actions>
+</div>

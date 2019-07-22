@@ -1,0 +1,18 @@
+<div id="chat" class="page-layout carded fullwidth inner-scroll">
+  <div class="top-bg"></div>
+  <div class="center">
+      <div class="content-card">
+          <mat-sidenav-container>
+              <mat-sidenav class="sidenav" position="start" opened="true" mode="side" fuseMatSidenavHelper="chat-left-sidenav"
+                  matIsLockedOpen="gt-md">
+                  <output-type-side-bar [AllOutputTypes]="AllOutputTypes" (OutputTypeSelectionChanged)="OnOutputTypeSelectionChanged($event)">
+                  </output-type-side-bar>
+              </mat-sidenav>
+              <output-type-main-content [currentSelectedOutputType]="SelectedOutputType" (SaveSucceed)='RefreshAllOutputTypes($event)'
+                  (ShowProgressBarEvent)="OnShowProgressBarEvent($event)"></output-type-main-content>
+          </mat-sidenav-container>
+          <mat-progress-spinner *ngIf="IsProgressBarVisibile" class="ProgressBarPostion" color="accent" mode="indeterminate"></mat-progress-spinner>
+      </div>
+  </div>
+  <div id="overlay" *ngIf="IsProgressBarVisibile"></div>
+</div>

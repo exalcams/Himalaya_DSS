@@ -1,0 +1,18 @@
+<div id="chat" class="page-layout carded fullwidth inner-scroll">
+  <div class="top-bg"></div>
+  <div class="center">
+      <div class="content-card">
+          <mat-sidenav-container>
+              <mat-sidenav class="sidenav" position="start" opened="true" mode="side" fuseMatSidenavHelper="chat-left-sidenav"
+                  matIsLockedOpen="gt-md">
+                  <plant-side-bar [AllPlants]="AllPlants" (PlantSelectionChanged)="OnPlantSelectionChanged($event)">
+                  </plant-side-bar>
+              </mat-sidenav>
+              <plant-main-content [currentSelectedPlant]="SelectedPlant" (SaveSucceed)='RefreshAllPlants($event)'
+                  (ShowProgressBarEvent)="OnShowProgressBarEvent($event)"></plant-main-content>
+          </mat-sidenav-container>
+          <mat-progress-spinner *ngIf="IsProgressBarVisibile" class="ProgressBarPostion" color="accent" mode="indeterminate"></mat-progress-spinner>
+      </div>
+  </div>
+  <div id="overlay" *ngIf="IsProgressBarVisibile"></div>
+</div>

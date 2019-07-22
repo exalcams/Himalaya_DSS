@@ -1,0 +1,139 @@
+<form class="mat-card mat-elevation-z4 p-24" autocomplete="off" fxLayout="column" fxLayoutAlign="start"
+  fxFlex="1 0 auto" name="form" [formGroup]="userMainFormGroup" novalidate>
+  <div class="h2 mb-12">{{user.UserID?'Update':'Create'}} User</div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input matInput placeholder="User Name" formControlName="userName" [readonly]="user.UserID"
+        [class.disabledClass]="user.UserID" required>
+      <mat-error
+        *ngIf="userMainFormGroup.get('userName').touched &&  userMainFormGroup.get('userName').hasError('required')">
+        User Name required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="pl-8" fxFlex="50">
+      <!-- <input matInput placeholder="User Type" formControlName="userType" required> -->
+      <mat-select placeholder="User Type" formControlName="userType" required>
+        <mat-option value="Himalaya email id user">Himalaya email id user</mat-option>
+        <mat-option value="NonHimalaya email id user">NonHimalaya email id user</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userMainFormGroup.get('userType').touched &&  userMainFormGroup.get('userType').hasError('required')">
+        User Type required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="pl-8" fxFlex="50">
+      <mat-select placeholder="Role Name" formControlName="roleID" required
+        (selectionChange)="roleSelectionChange($event)" name="selectedRole">
+        <mat-option *ngFor="let rol of AllRoles" [value]="rol.RoleID">{{rol.RoleName}}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userMainFormGroup.get('roleID').touched && userMainFormGroup.get('roleID').hasError('required')">Role
+        Name required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input matInput placeholder="Reporting To" formControlName="reportingTo">
+      <!-- <mat-error
+        *ngIf="userMainFormGroup.get('reportingTo').touched &&  userMainFormGroup.get('reportingTo').hasError('required')">
+        Reporting To is required</mat-error> -->
+    </mat-form-field>
+  </div>
+  <!-- <div fxLayout="row" fxLayoutAlign="start" *ngIf="!user.UserID"
+    [style.display]="UserType==='Himalaya email id user'?'none':'inherit'">
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input type="password" matInput placeholder="Password" formControlName="password" 
+      >
+      <mat-error
+        *ngIf="userMainFormGroup.get('password').touched && userMainFormGroup.get('password').hasError('required')">
+        Password
+        required</mat-error>
+      <mat-error *ngIf="userMainFormGroup.get('password').touched && !userMainFormGroup.get('password').hasError('required') &&
+                         userMainFormGroup.get('password').hasError('pattern')">
+        Passwords must have minimum One Uppercase letter,three lower case letter,two digit,one special character and
+        minimum length of 8 and don't start with digit
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword" 
+      >
+      <mat-error
+        *ngIf="userMainFormGroup.get('confirmPassword').touched && userMainFormGroup.get('confirmPassword').hasError('required')">
+        Confirm password required
+      </mat-error>
+      <mat-error *ngIf="userMainFormGroup.get('confirmPassword').touched && !userMainFormGroup.get('confirmPassword').hasError('required') &&
+                         userMainFormGroup.get('confirmPassword').hasError('passwordsNotMatching')">
+        Passwords must match
+      </mat-error>
+    </mat-form-field>
+  </div> -->
+  <div fxLayout="row" fxLayoutAlign="start">
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input matInput placeholder="Email ID" formControlName="email" required>
+      <mat-error *ngIf="userMainFormGroup.get('email').touched && userMainFormGroup.get('email').hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="userMainFormGroup.get('email').touched && !userMainFormGroup.get('email').hasError('required') &&
+                userMainFormGroup.get('email').hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input matInput placeholder="Mobile Number" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$"
+        formControlName="contactNumber" required>
+      <mat-error
+        *ngIf="userMainFormGroup.get('contactNumber').touched && userMainFormGroup.get('contactNumber').hasError('required')">
+        Mobile Number is required
+      </mat-error>
+      <mat-error *ngIf="userMainFormGroup.get('contactNumber').touched && !userMainFormGroup.get('contactNumber').hasError('required') &&
+                userMainFormGroup.get('contactNumber').hasError('pattern')">
+        Please enter a valid Mobile Number
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" [style.display]="isAdministrator?'none':'inherit'">
+    <mat-form-field class="pl-8 plantClass" fxFlex="50">
+      <mat-select placeholder="Plant" formControlName="plantIDList" multiple>
+        <mat-option #allPlantSelected (click)="toggleAllPlantSelection()" [value]="0">All</mat-option>
+        <mat-option *ngFor="let pl of AllPlants" (click)="OnPlantSelection()" [value]="pl.Plant_ID">
+          {{pl.Plant_ID}} <span>({{pl.Plant_Name}})</span>
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userMainFormGroup.get('plantIDList').touched &&  userMainFormGroup.get('plantIDList').hasError('required')">
+        Plant is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="pl-8 plantClass" fxFlex="50">
+      <mat-select placeholder="Document type" formControlName="documentTypeIDList" multiple>
+        <mat-option #allDocumentTypeSelected (click)="toggleAllDocumentTypeSelection()" [value]="0">All</mat-option>
+        <mat-option *ngFor="let pl of AllDocumentTypes" (click)="OnDocumentTypeSelection()" [value]="pl.Doc_Type_ID">
+          {{pl.Doc_Type_ID}} <span>({{pl.Doc_Type_Name}})</span>
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="userMainFormGroup.get('documentTypeIDList').touched &&  userMainFormGroup.get('documentTypeIDList').hasError('required')">
+        Document type is required</mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 0 auto">
+    <mat-form-field class="pl-8" fxFlex="50">
+      <input matInput placeholder="Signature display title" formControlName="displayTitle" [required]>
+      <mat-error
+        *ngIf="userMainFormGroup.get('displayTitle').touched &&  userMainFormGroup.get('displayTitle').hasError('required')">
+        Signature display title is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button mat-raised-button type="button" (click)="ResetControl()" *ngIf="!user.UserID" style="margin-right:10px">
+      Clear
+    </button>
+    <button mat-raised-button class="hbo" type="button" (click)="DeleteClicked()" *ngIf="user.UserID"
+      style="margin-right:10px">
+      Delete
+    </button>
+    <button mat-raised-button class="hbg" type="button" (click)="SaveClicked()">
+      {{user.UserID?'Update':'Create'}}
+    </button>
+  </div>
+</form>

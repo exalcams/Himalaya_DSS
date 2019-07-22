@@ -1,0 +1,562 @@
+<div id="adminDashboard" class="page-layout simple right-sidebar" fxLayout="row">
+  <div class="center" fusePerfectScrollbar>
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+      <!--card part started-->
+      <div fxFlex class="mb-0">
+        <div class="container m-12" fxLayout fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center"
+          fxLayoutGap="10px" fxLayoutGap.xs="10">
+          <div fxFlex class="TileClass successBgColor" (click)="tabone()">
+            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
+              <div fxFlex="70%">
+                <h2 class="titleClass">
+                  Signed Documents
+                </h2>
+              </div>
+              <div fxFlex="30%">
+                <h2 class="subTitleClass">
+                  {{DSSStatusCount?.SignedDocumnentCount}}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex class="TileClass primaryBgColor" (click)="tabtwo()">
+            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
+              <div fxFlex="70%">
+                <h2 class="titleClass">
+                  Certificates
+                </h2>
+              </div>
+              <div fxFlex="30%">
+                <h2 class="subTitleClass">
+                  {{DSSStatusCount?.ConfigurationCount}}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex class="TileClass warningBgColor" (click)="tabthree()">
+            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
+              <div fxFlex="70%">
+                <h2 class="titleClass">
+                  Expired Cerificates
+                </h2>
+              </div>
+              <div fxFlex="30%">
+                <h2 class="subTitleClass">
+                  {{DSSStatusCount?.ExpiryCerificateCount}}
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div fxFlex class="TileClass dangerBgColor" (click)="tabfour()">
+            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
+              <div fxFlex="70%">
+                <h2 class="titleClass">
+                  Error Documents
+                </h2>
+              </div>
+              <div fxFlex="30%">
+                <h2 class="subTitleClass">
+                  {{DSSStatusCount?.ErrorDocumentCount}}
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--card part ended-->
+
+      <!--Signed documnets part starts-->
+      <div class="content" fxLayout="column" *ngIf="tab1">
+        <!-- <div fxLayout="column"> -->
+        <form class="mat-card formGroupStyle" autocomplete="off" fxFlex name="form" [formGroup]="documentFormGroup"
+          novalidate>
+          <div FxLayout="row" class="formRowStyle" fxLayout.xs="column">
+            <div fxFlex>
+              <mat-form-field>
+                <input matInput pattern="^\d+$" placeholder="From Invoice" (keyup)="InvoiceKeyUp()"
+                formControlName="FromInvoice">
+                <mat-error
+                  *ngIf="documentFormGroup.get('FromInvoice').touched && documentFormGroup.get('FromInvoice').hasError('required')">
+                  From Invoice is required
+                </mat-error>
+                <mat-error *ngIf="documentFormGroup.get('FromInvoice').touched && !documentFormGroup.get('FromInvoice').hasError('required') &&
+                  documentFormGroup.get('FromInvoice').hasError('pattern')">
+                  Enter valid invoice number
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <input matInput pattern="^\d+$" placeholder="To Invoice" (keyup)="InvoiceKeyUp()" 
+                formControlName="ToInvoice">
+                <mat-error
+                  *ngIf="documentFormGroup.get('ToInvoice').touched && documentFormGroup.get('ToInvoice').hasError('required')">
+                  To Invoice is required
+                </mat-error>
+                <mat-error *ngIf="documentFormGroup.get('ToInvoice').touched && !documentFormGroup.get('ToInvoice').hasError('required')&&
+                documentFormGroup.get('ToInvoice').hasError('pattern')">
+                  Enter valid invoice number
+                </mat-error>
+              </mat-form-field>
+              <div *ngIf="isInvoiceError" style="color:#f44336;font-size: 12px;margin-top: -16px">
+                To invoice should not be less than from invoice
+              </div>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <mat-select style="width:180px" placeholder="Plant" formControlName="PlantID"
+                  (selectionChange)="PlantSelected($event)">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let plt of AllPlants" [value]="plt.Plant_ID">
+                    {{plt.Plant_ID}} <span>({{plt.Plant_Name}})</span>
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="documentFormGroup.get('PlantID').touched && documentFormGroup.get('PlantID').hasError('required')">
+                  Plant is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <mat-select style="width:180px" placeholder="Document Type" formControlName="DocumentTypeID"
+                  (selectionChange)="DocumentTypeIDSelected($event)">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let doc1 of AllDocumentTypes" [value]="doc1.Doc_Type_ID">
+                    {{doc1.Doc_Type_ID}} <span>({{doc1.Doc_Type_Name}})</span>
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="documentFormGroup.get('DocumentTypeID').touched && documentFormGroup.get('DocumentTypeID').hasError('required')">
+                  Document type is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <mat-select style="width:180px" placeholder="Output Type" formControlName="OutputTypeID">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let doc1 of AllFilteredOutputTypes" [value]="doc1.OutputType_ID">
+                    {{doc1.OutputType_ID}} <span>({{doc1.OutputType_Name}})</span>
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="documentFormGroup.get('OutputTypeID').touched && documentFormGroup.get('OutputTypeID').hasError('required')">
+                  Output type is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div FxLayout="row" class="formRowStyle" fxLayout.xs="column">
+            <div fxFlex>
+              <mat-form-field>
+                <mat-select style="width:180px" placeholder="Authority" formControlName="Authority">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let usr of AllFilteredUsers" [value]="usr">
+                    {{usr}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="documentFormGroup.get('Authority').touched && documentFormGroup.get('Authority').hasError('required')">
+                  Authority is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <!-- <input matInput placeholder="From date" [matDatepicker]="picker1" formControlName="FromDate"
+                  (focus)="picker1.open()" (click)="picker1.open()" (dateChange)="DateSelected()" [readonly]="true"> -->
+                <!-- <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle> -->
+                <input matInput placeholder="From date" [matDatepicker]="picker1" formControlName="FromDate"
+                (keydown)="onKeydown($event)" (dateChange)="DateSelected()">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error
+                  *ngIf="documentFormGroup.get('FromDate').touched && documentFormGroup.get('FromDate').hasError('required')">
+                  From date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <mat-form-field>
+                <input matInput placeholder="To Date" [matDatepicker]="picker2" formControlName="ToDate"
+                  (keydown)="onKeydown($event)" (dateChange)="DateSelected()">
+                <mat-datepicker-toggle matSuffix [for]="picker2"> </mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                <mat-error
+                  *ngIf="documentFormGroup.get('ToDate').touched && documentFormGroup.get('ToDate').hasError('required')">
+                  To date is required
+                </mat-error>
+              </mat-form-field>
+              <div *ngIf="isDateError" style="color:#f44336;font-size: 12px;margin-top: -16px">
+                To date should not be less than from date
+              </div>
+            </div>
+            <div fxFlex>
+              <button class="mt-12 hbg" mat-raised-button (click)="GetAllInvoicesBasedOnDate()">Get Signed
+                Documnets</button>
+            </div>
+          </div>
+        </form>
+        <!-- </div> -->
+        <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
+          <div class="h2 pl-12 pt-8 successColor" fxFlex>SIGNED DOCUMENTS</div>
+          <mat-form-field class="pl-12" fxFlex>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          </mat-form-field>
+          <div class="mat-elevation-z8 m-4" fxFlex>
+            <table mat-table [dataSource]="SignDocumentsDataSource" matSort style="width:100%">
+
+              <ng-container matColumnDef="INV_NAME">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice No </th>
+                <td mat-cell *matCellDef="let row"> {{row.INV_NAME}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Plant_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Plant </th>
+                <td mat-cell *matCellDef="let row"> {{row.Plant_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DocumentType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Doc Type </th>
+                <td mat-cell *matCellDef="let row"> {{row.DocumentType_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="OutputType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Output Type </th>
+                <td mat-cell *matCellDef="let row"> {{row.OutputType_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="SIGNED_AUTHORITY">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed Authority </th>
+                <td mat-cell *matCellDef="let row"> {{row.SIGNED_AUTHORITY}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="SIGNED_ON">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> SIGNED_ON </th>
+                <td mat-cell *matCellDef="let row"> {{row.SIGNED_ON | date : 'dd-MM-yyyy hh:mm:ss a'}}</td>
+              </ng-container>
+
+
+              <!-- <ng-container matColumnDef="AUTOSIGNED">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Auto Sign </th>
+                <td mat-cell *matCellDef="let row"> {{row.AUTOSIGNED}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="View">
+                <th mat-header-cell *matHeaderCellDef> View </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon aria-label="image" (click)="ViewPdfFromID(row.ID,row.INVOICE_NAME)">image</mat-icon>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Download">
+                <th mat-header-cell *matHeaderCellDef> Download</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon aria-label="file_download" (click)="DowloandPdfFromID(row.ID,row.INVOICE_NAME)">
+                    file_download
+                  </mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="SignDocumentsColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: SignDocumentsColumns;">
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <!--Signed documnets part ends-->
+
+      <!--Certificate part starts-->
+      <div class="content" fxLayout="column" *ngIf="tab2">
+        <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
+          <div class="h2 pl-12 pt-8 primaryColor" fxFlex>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div fxFlex fxLayoutAlign="space-between center">
+                CERTIFICATES
+                <button mat-mini-fab class="mr-8 hbg" matTooltip="Add Cofiguration" (click)="AddConfigurations()">
+                  <mat-icon aria-label="Add Cofiguration">add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <mat-form-field class="pl-12" fxFlex>
+            <input matInput (keyup)="applyFilterConfig($event.target.value)" placeholder="Search">
+          </mat-form-field>
+          <div class="mat-elevation-z8 m-4" fxFlex>
+            <table mat-table [dataSource]="ConfigurationsDataSource" matSort style="width:100%">
+
+              <!-- <ng-container matColumnDef="DOCTYPE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Doc Type</th>
+                <td mat-cell *matCellDef="let row"> {{row.DOCTYPE}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="Plant_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Plant</th>
+                <td mat-cell *matCellDef="let row"> {{row.Plant_ID}}</td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="DocumentType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Doc Type</th>
+                <td mat-cell *matCellDef="let row"> {{row.DocumentType_ID}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="CERT_NAME">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Certificate Name</th>
+                <td mat-cell *matCellDef="let row"> {{row.CERT_NAME}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY1_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P1_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY1_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY2_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P2_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY2_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY3_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P3_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY3_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY4_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P4_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY4_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY5_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P5_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY5_USER}} </td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="AUTHORITY">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Authority</th>
+                <td mat-cell *matCellDef="let row"> {{row.AUTHORITY}} </td>
+              </ng-container> -->
+
+              <!-- <ng-container matColumnDef="DISPLAYTITLE1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title1</th>
+                <td mat-cell *matCellDef="let row"> {{row.DISPLAYTITLE1}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="DISPLAYTITLE2">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title2</th>
+                <td mat-cell *matCellDef="let row"> {{row.DISPLAYTITLE2}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="CREATED_ON">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CreatedOn</th>
+                <td mat-cell *matCellDef="let row"> {{row.CREATED_ON | date : 'dd-MM-yyyy hh:mm:ss a'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let row" (click)="UpdateConfiguration(row)">
+                  <mat-icon aria-label="image">edit</mat-icon>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Delete">
+                <th mat-header-cell *matHeaderCellDef> Delete</th>
+                <td mat-cell *matCellDef="let row" (click)="DeleteConfiguration(row)">
+                  <mat-icon aria-label="file_download">delete</mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="ConfigurationsColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: ConfigurationsColumns;">
+              </tr>
+            </table>
+
+            <mat-paginator #ConfigurationsPaginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </mat-card>
+
+      </div>
+      <!--Certificate part Ends-->
+
+      <!--Expiring Certificate part starts-->
+      <div class="content" fxLayout="column" *ngIf="tab3">
+        <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
+          <div class="h2 pl-12 pt-8 warningColor" fxFlex>EXPIRED CERTIFICATES</div>
+
+          <mat-form-field class="pl-12" fxFlex>
+            <input matInput (keyup)="applyFilterExp($event.target.value)" placeholder="Search">
+          </mat-form-field>
+
+          <div class="mat-elevation-z8 m-4" fxFlex>
+            <table mat-table [dataSource]="ExpiredCertificatesDataSource" matSort style="width:100%">
+
+              <!-- <ng-container matColumnDef="DOCTYPE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Doc Type</th>
+                <td mat-cell *matCellDef="let row"> {{row.DOCTYPE}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="Plant_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Plant</th>
+                <td mat-cell *matCellDef="let row"> {{row.Plant_ID}}</td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="DocumentType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Doc Type</th>
+                <td mat-cell *matCellDef="let row"> {{row.DocumentType_ID}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="CERT_NAME">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Certificate Name</th>
+                <td mat-cell *matCellDef="let row"> {{row.CERT_NAME}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY1_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P1_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY1_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY2_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P2_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY2_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY3_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P3_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY3_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY4_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P4_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY4_USER}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PRIORITY5_USER">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P5_User</th>
+                <td mat-cell *matCellDef="let row"> {{row.PRIORITY5_USER}} </td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="AUTHORITY">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Authority</th>
+                <td mat-cell *matCellDef="let row"> {{row.AUTHORITY}} </td>
+              </ng-container> -->
+
+              <!-- <ng-container matColumnDef="DISPLAYTITLE1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title1</th>
+                <td mat-cell *matCellDef="let row"> {{row.DISPLAYTITLE1}} </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="DISPLAYTITLE2">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title2</th>
+                <td mat-cell *matCellDef="let row"> {{row.DISPLAYTITLE2}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="CERT_EX_DT">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Expired On</th>
+                <td mat-cell *matCellDef="let row">{{row.CERT_EX_DT | date : 'dd-MM-yyyy hh:mm:ss a'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let row" (click)="UpdateConfiguration(row)">
+                  <mat-icon aria-label="image">edit</mat-icon>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Delete">
+                <th mat-header-cell *matHeaderCellDef> Delete</th>
+                <td mat-cell *matCellDef="let row" (click)="DeleteConfiguration(row)">
+                  <mat-icon aria-label="file_download">delete</mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="ExpiredCertificatesColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: ExpiredCertificatesColumns;">
+              </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <!--Expiring Certificate part Ends-->
+
+      <!--ERROR DOCUMENTS part starts-->
+      <div class="content" fxLayout="column" *ngIf="tab4">
+        <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
+          <div class="h2 pl-12 pt-8 dangerColor" fxFlex>ERROR DOCUMENTS</div>
+
+          <mat-form-field class="pl-12" fxFlex>
+            <input matInput (keyup)="applyFilterError($event.target.value)" placeholder="Search">
+          </mat-form-field>
+
+          <div class="mat-elevation-z8 m-4" fxFlex>
+            <table mat-table [dataSource]="ErrorDocumentsDataSource" matSort style="width:100%">
+
+              <ng-container matColumnDef="INV_NAME">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice No </th>
+                <td mat-cell *matCellDef="let row"> {{row.INV_NAME}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Plant_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Plant </th>
+                <td mat-cell *matCellDef="let row"> {{row.Plant_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DocumentType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Doc Type </th>
+                <td mat-cell *matCellDef="let row"> {{row.DocumentType_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="OutputType_ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Output Type </th>
+                <td mat-cell *matCellDef="let row"> {{row.OutputType_ID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="CREATED_ON">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Created On </th>
+                <td mat-cell *matCellDef="let row"> {{row.CREATED_ON | date : 'dd-MM-yyyy hh:mm:ss a'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Comment">
+                <th mat-header-cell *matHeaderCellDef> Comment </th>
+                <td mat-cell *matCellDef="let row"> {{row.COMMENT}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="View">
+                <th mat-header-cell *matHeaderCellDef> View </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon aria-label="image" (click)="ViewPdfFromID(row.ID,row.INVOICE_NAME)">image</mat-icon>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Download">
+                <th mat-header-cell *matHeaderCellDef> Download</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon aria-label="file_download" (click)="DowloandPdfFromID(row.ID,row.INVOICE_NAME)">
+                    file_download
+                  </mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="ErrorDocumentsColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: ErrorDocumentsColumns;">
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <!--ERROR DOCUMENTS part Ends-->
+    </div>
+    <mat-progress-spinner
+      *ngIf="IsProgressBarVisibile || !IsDSSStatusCountCompleted || !IsAllSignedDocumentCompleted || !AllDocumentTypeNameCompleted"
+      class="ProgressBarPostion" color="accent" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+  <div id="overlay"
+    *ngIf="IsProgressBarVisibile || !IsDSSStatusCountCompleted || !IsAllSignedDocumentCompleted || !AllDocumentTypeNameCompleted">
+  </div>
+</div>
