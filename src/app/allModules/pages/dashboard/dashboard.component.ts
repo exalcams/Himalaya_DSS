@@ -27,6 +27,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { MasterService } from 'app/services/master.service';
 import { CustomValidator } from 'app/shared/custom-validator';
 import { ConfigUserUpdateDialogComponent } from '../config-user-update-dialog/config-user-update-dialog.component';
+import { ExcelService } from 'app/services/excel.service';
 
 @Component({
   selector: 'dashboard',
@@ -48,7 +49,7 @@ export class DashboardComponent implements OnInit {
   AllSignedDocument: DSSInvoice[] = [];
   AllConfigurations: DSSConfiguration[] = [];
   AllExpiredCertificates: DSSConfiguration[] = [];
-  AllErrorDocuments: DSSErrorInvoice[] = [];
+  AllErrorDocuments: ErrorInvoice[] = [];
   // AllDocumentTypeNames: string[];
   AllPlants: PlantView[] = [];
   AllDocumentTypes: DocumentTypeView[] = [];
@@ -68,7 +69,7 @@ export class DashboardComponent implements OnInit {
   SignDocumentsDataSource: MatTableDataSource<DSSInvoice>;
   ConfigurationsDataSource: MatTableDataSource<DSSConfiguration>;
   ExpiredCertificatesDataSource: MatTableDataSource<DSSConfiguration>;
-  ErrorDocumentsDataSource: MatTableDataSource<DSSErrorInvoice>;
+  ErrorDocumentsDataSource: MatTableDataSource<ErrorInvoice>;
   SignDocumentsColumns: string[] = ['INV_NAME', 'Plant_ID', 'DocumentType_ID', 'OutputType_ID', 'SIGNED_AUTHORITY', 'SIGNED_ON', 'View', 'Download'];
   // tslint:disable-next-line:max-line-length
   ConfigurationsColumns: string[] = ['Plant_ID', 'CERT_NAME', 'PRIORITY1_USER', 'PRIORITY2_USER', 'PRIORITY3_USER', 'PRIORITY4_USER', 'PRIORITY5_USER', 'DISPLAYTITLE2', 'CREATED_ON'];
@@ -100,6 +101,7 @@ export class DashboardComponent implements OnInit {
   constructor(public _matDialog: MatDialog,
     public dashboardService: DashboardService,
     public masterService: MasterService,
+    public excelService: ExcelService,
     private _formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private dialog: MatDialog,
@@ -662,6 +664,117 @@ export class DashboardComponent implements OnInit {
       this.ConfigurationsDataSource.paginator.firstPage();
     }
 
+  }
+
+  ExportSignDocumentsToExcel(): void {
+    const startIndex: number = this.SignDocumentsPaginator.pageSize * this.SignDocumentsPaginator.pageIndex;
+    const endIndex: number = this.SignDocumentsPaginator.pageSize + startIndex;
+    let array: DSSInvoice[] = [];
+    let ExcelArray: any[] = [];
+    if (this.SignDocumentsDataSource.filteredData.length) {
+      array = this.SignDocumentsDataSource.filteredData;
+    } else {
+      array = this.SignDocumentsDataSource.data;
+    }
+    const itemsShowed1 = array.slice(startIndex, endIndex);
+    itemsShowed1.forEach(x => {
+      ExcelArray.push(
+        {
+          'Invoice Number': x.INV_NAME, 'Plant': x.Plant_ID, 'Document type': x.DocumentType_ID,
+          'Output type': x.OutputType_ID, 'Signed Authority': x.SIGNED_AUTHORITY,
+          'Signed on': this.datePipe.transform(x.SIGNED_ON, 'dd-MM-yyyy hh:mm:ss a')
+        });
+    });
+    if (ExcelArray.length > 0) {
+      this.excelService.exportAsExcelFile(ExcelArray, 'SignDocuments');
+    } else {
+      this.notificationSnackBarComponent.openSnackBar('No records found', SnackBarStatus.warning);
+    }
+    // const itemsShowed1 = this.SignDocumentsTable.nativeElement;
+    // this.excelService.exportTableToExcel(itemsShowed1, 'SignDocuments');
+  }
+
+  ExportConfigurationsToExcel(): void {
+    const startIndex: number = this.ConfigurationsPaginator.pageSize * this.ConfigurationsPaginator.pageIndex;
+    const endIndex: number = this.ConfigurationsPaginator.pageSize + startIndex;
+    let array: DSSConfiguration[] = [];
+    let ExcelArray: any[] = [];
+    if (this.ConfigurationsDataSource.filteredData.length) {
+      array = this.ConfigurationsDataSource.filteredData;
+    } else {
+      array = this.ConfigurationsDataSource.data;
+    }
+    const itemsShowed1 = array.slice(startIndex, endIndex);
+    itemsShowed1.forEach(x => {
+      ExcelArray.push(
+        {
+          'Plant': x.Plant_ID, 'Certificate name': x.CERT_NAME, 'Priority 1 user': x.PRIORITY1_USER, 'Priority 2 user': x.PRIORITY2_USER,
+          'Priority 3 user': x.PRIORITY3_USER, 'Priority 4 user': x.PRIORITY4_USER, 'Priority 5 user': x.PRIORITY5_USER,
+          'Title 2': x.DISPLAYTITLE2, 'Created on': this.datePipe.transform(x.CREATED_ON, 'dd-MM-yyyy hh:mm:ss a')
+        });
+    });
+    if (ExcelArray.length > 0) {
+      this.excelService.exportAsExcelFile(ExcelArray, 'Configurations');
+    } else {
+      this.notificationSnackBarComponent.openSnackBar('No records found', SnackBarStatus.warning);
+    }
+    // const itemsShowed1 = this.ConfigurationsTable.nativeElement;
+    // this.excelService.exportTableToExcel(itemsShowed1, 'Configurations');
+  }
+
+  ExportExpiredCertificatesToExcel(): void {
+    const startIndex: number = this.ExpiredCertificatesPaginator.pageSize * this.ExpiredCertificatesPaginator.pageIndex;
+    const endIndex: number = this.ExpiredCertificatesPaginator.pageSize + startIndex;
+    let array: DSSConfiguration[] = [];
+    let ExcelArray: any[] = [];
+    if (this.ExpiredCertificatesDataSource.filteredData.length) {
+      array = this.ExpiredCertificatesDataSource.filteredData;
+    } else {
+      array = this.ExpiredCertificatesDataSource.data;
+    }
+    const itemsShowed1 = array.slice(startIndex, endIndex);
+    itemsShowed1.forEach(x => {
+      ExcelArray.push(
+        {
+          'Plant': x.Plant_ID, 'Certificate name': x.CERT_NAME, 'Priority 1 user': x.PRIORITY1_USER, 'Priority 2 user': x.PRIORITY2_USER,
+          'Priority 3 user': x.PRIORITY3_USER, 'Priority 4 user': x.PRIORITY4_USER, 'Priority 5 user': x.PRIORITY5_USER,
+          'Title 2': x.DISPLAYTITLE2, 'Expired on': this.datePipe.transform(x.CERT_EX_DT, 'dd-MM-yyyy hh:mm:ss a')
+        });
+    });
+    if (ExcelArray.length > 0) {
+      this.excelService.exportAsExcelFile(ExcelArray, 'ExpiredCertificates');
+    } else {
+      this.notificationSnackBarComponent.openSnackBar('No records found', SnackBarStatus.warning);
+    }
+    // const itemsShowed1 = this.ExpiredCertificatesTable.nativeElement;
+    // this.excelService.exportTableToExcel(itemsShowed1, 'ExpiredCertificates');
+  }
+
+  ExportErrorDocumentsToExcel(): void {
+    const startIndex: number = this.ErrorDocumentsPaginator.pageSize * this.ErrorDocumentsPaginator.pageIndex;
+    const endIndex: number = this.ErrorDocumentsPaginator.pageSize + startIndex;
+    let array: ErrorInvoice[] = [];
+    let ExcelArray: any[] = [];
+    if (this.ErrorDocumentsDataSource.filteredData.length) {
+      array = this.ErrorDocumentsDataSource.filteredData;
+    } else {
+      array = this.ErrorDocumentsDataSource.data;
+    }
+    const itemsShowed1 = array.slice(startIndex, endIndex);
+    itemsShowed1.forEach(x => {
+      ExcelArray.push(
+        {
+          'Invoice Number': x.INV_NAME, 'Plant': x.Plant_ID, 'Document type': x.DocumentType_ID,
+          'Output type': x.OutputType_ID, 'Created on': this.datePipe.transform(x.CREATED_ON, 'dd-MM-yyyy hh:mm:ss a'), 'Comment': x.COMMENT
+        });
+    });
+    if (ExcelArray.length > 0) {
+      this.excelService.exportAsExcelFile(ExcelArray, 'ErrorDocuments');
+    } else {
+      this.notificationSnackBarComponent.openSnackBar('No records found', SnackBarStatus.warning);
+    }
+    // const itemsShowed1 = this.ErrorDocumentsTable.nativeElement;
+    // this.excelService.exportTableToExcel(itemsShowed1, 'ErrorDocuments');
   }
 }
 
