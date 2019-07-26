@@ -670,7 +670,7 @@ export class DashboardComponent implements OnInit {
     const startIndex: number = this.SignDocumentsPaginator.pageSize * this.SignDocumentsPaginator.pageIndex;
     const endIndex: number = this.SignDocumentsPaginator.pageSize + startIndex;
     let array: DSSInvoice[] = [];
-    let ExcelArray: any[] = [];
+    const ExcelArray: any[] = [];
     if (this.SignDocumentsDataSource.filteredData.length) {
       array = this.SignDocumentsDataSource.filteredData;
     } else {
@@ -698,7 +698,7 @@ export class DashboardComponent implements OnInit {
     const startIndex: number = this.ConfigurationsPaginator.pageSize * this.ConfigurationsPaginator.pageIndex;
     const endIndex: number = this.ConfigurationsPaginator.pageSize + startIndex;
     let array: DSSConfiguration[] = [];
-    let ExcelArray: any[] = [];
+    const ExcelArray: any[] = [];
     if (this.ConfigurationsDataSource.filteredData.length) {
       array = this.ConfigurationsDataSource.filteredData;
     } else {
@@ -726,7 +726,7 @@ export class DashboardComponent implements OnInit {
     const startIndex: number = this.ExpiredCertificatesPaginator.pageSize * this.ExpiredCertificatesPaginator.pageIndex;
     const endIndex: number = this.ExpiredCertificatesPaginator.pageSize + startIndex;
     let array: DSSConfiguration[] = [];
-    let ExcelArray: any[] = [];
+    const ExcelArray: any[] = [];
     if (this.ExpiredCertificatesDataSource.filteredData.length) {
       array = this.ExpiredCertificatesDataSource.filteredData;
     } else {
@@ -754,7 +754,7 @@ export class DashboardComponent implements OnInit {
     const startIndex: number = this.ErrorDocumentsPaginator.pageSize * this.ErrorDocumentsPaginator.pageIndex;
     const endIndex: number = this.ErrorDocumentsPaginator.pageSize + startIndex;
     let array: ErrorInvoice[] = [];
-    let ExcelArray: any[] = [];
+    const ExcelArray: any[] = [];
     if (this.ErrorDocumentsDataSource.filteredData.length) {
       array = this.ErrorDocumentsDataSource.filteredData;
     } else {
