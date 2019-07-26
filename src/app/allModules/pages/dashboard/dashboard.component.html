@@ -70,13 +70,13 @@
       <!--Signed documnets part starts-->
       <div class="content" fxLayout="column" *ngIf="tab1">
         <!-- <div fxLayout="column"> -->
-          <form class="mat-card formGroupStyle" autocomplete="off" fxFlex name="form" [formGroup]="documentFormGroup"
+        <form class="mat-card formGroupStyle" autocomplete="off" fxFlex name="form" [formGroup]="documentFormGroup"
           novalidate>
           <div FxLayout="row" class="formRowStyle" fxLayout.xs="column">
             <div fxFlex>
               <mat-form-field>
                 <input matInput pattern="^\d+$" placeholder="From Invoice" (keyup)="InvoiceKeyUp()"
-                formControlName="FromInvoice">
+                  formControlName="FromInvoice">
                 <mat-error
                   *ngIf="documentFormGroup.get('FromInvoice').touched && documentFormGroup.get('FromInvoice').hasError('required')">
                   From Invoice is required
@@ -89,8 +89,8 @@
             </div>
             <div fxFlex>
               <mat-form-field>
-                <input matInput pattern="^\d+$" placeholder="To Invoice" (keyup)="InvoiceKeyUp()" 
-                formControlName="ToInvoice">
+                <input matInput pattern="^\d+$" placeholder="To Invoice" (keyup)="InvoiceKeyUp()"
+                  formControlName="ToInvoice">
                 <mat-error
                   *ngIf="documentFormGroup.get('ToInvoice').touched && documentFormGroup.get('ToInvoice').hasError('required')">
                   To Invoice is required
@@ -170,7 +170,7 @@
                   (focus)="picker1.open()" (click)="picker1.open()" (dateChange)="DateSelected()" [readonly]="true"> -->
                 <!-- <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle> -->
                 <input matInput placeholder="From date" [matDatepicker]="picker1" formControlName="FromDate"
-                (keydown)="onKeydown($event)" (dateChange)="DateSelected()">
+                  (keydown)="onKeydown($event)" (dateChange)="DateSelected()">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
                 <mat-error
@@ -204,9 +204,14 @@
         <!-- </div> -->
         <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
           <div class="h2 pl-12 pt-8 successColor" fxFlex>SIGNED DOCUMENTS</div>
-          <mat-form-field class="pl-12" fxFlex>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-          </mat-form-field>
+          <div fxFlex fxLayout>
+            <mat-form-field class="pl-12" fxFlex="60">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+            </mat-form-field>
+            <div fxFlex="40" align="end" class="pr-40">
+              <button mat-raised-button class="hbg" (click)="ExportSignDocumentsToExcel()">Export to Excel</button>
+            </div>
+          </div>
           <div class="mat-elevation-z8 m-4" fxFlex>
             <table mat-table [dataSource]="SignDocumentsDataSource" matSort style="width:100%">
 
@@ -280,9 +285,14 @@
               </div>
             </div>
           </div>
-          <mat-form-field class="pl-12" fxFlex>
-            <input matInput (keyup)="applyFilterConfig($event.target.value)" placeholder="Search">
-          </mat-form-field>
+          <div fxFlex fxLayout>
+            <mat-form-field class="pl-12" fxFlex="60">
+              <input matInput (keyup)="applyFilterConfig($event.target.value)" placeholder="Search">
+            </mat-form-field>
+            <div fxFlex="40" align="end" class="pr-60">
+              <button mat-raised-button class="hbg" (click)="ExportConfigurationsToExcel()">Export to Excel</button>
+            </div>
+          </div>
           <div class="mat-elevation-z8 m-4" fxFlex>
             <table mat-table [dataSource]="ConfigurationsDataSource" matSort style="width:100%">
 
@@ -391,11 +401,15 @@
       <div class="content" fxLayout="column" *ngIf="tab3">
         <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
           <div class="h2 pl-12 pt-8 warningColor" fxFlex>EXPIRED CERTIFICATES</div>
-
-          <mat-form-field class="pl-12" fxFlex>
-            <input matInput (keyup)="applyFilterExp($event.target.value)" placeholder="Search">
-          </mat-form-field>
-
+          <div fxFlex fxLayout>
+            <mat-form-field class="pl-12" fxFlex="60">
+              <input matInput (keyup)="applyFilterExp($event.target.value)" placeholder="Search">
+            </mat-form-field>
+            <div fxFlex="40" align="end" class="pr-40">
+              <button mat-raised-button class="hbg" (click)="ExportExpiredCertificatesToExcel()">Export to
+                Excel</button>
+            </div>
+          </div>
           <div class="mat-elevation-z8 m-4" fxFlex>
             <table mat-table [dataSource]="ExpiredCertificatesDataSource" matSort style="width:100%">
 
@@ -479,11 +493,16 @@
       <div class="content" fxLayout="column" *ngIf="tab4">
         <mat-card class="m-12 p-8" style="border-radius: 10px" fxLayout="column">
           <div class="h2 pl-12 pt-8 dangerColor" fxFlex>ERROR DOCUMENTS</div>
-
-          <mat-form-field class="pl-12" fxFlex>
-            <input matInput (keyup)="applyFilterError($event.target.value)" placeholder="Search">
-          </mat-form-field>
-
+          <div fxFlex fxLayout>
+            <mat-form-field class="pl-12" fxFlex="60">
+              <input matInput (keyup)="applyFilterError($event.target.value)" placeholder="Search">
+            </mat-form-field>
+            <div fxFlex="40" align="end" class="pr-40">
+              <button mat-raised-button class="hbg" (click)="ExportErrorDocumentsToExcel()">
+                Export to Excel
+              </button>
+            </div>
+          </div>
           <div class="mat-elevation-z8 m-4" fxFlex>
             <table mat-table [dataSource]="ErrorDocumentsDataSource" matSort style="width:100%">
 

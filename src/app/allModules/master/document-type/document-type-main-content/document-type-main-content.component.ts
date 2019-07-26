@@ -213,7 +213,7 @@ export class DocumentTypeMainContentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.currentSelectedDocumentType);
+    // console.log(this.currentSelectedDocumentType);
     // this.documentType = this.currentSelectedDocumentType;
     if (this.currentSelectedDocumentType) {
       this.documentType = new DocumentOutputType();
