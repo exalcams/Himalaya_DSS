@@ -21,6 +21,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     CurrentLoggedInUser: string;
     CurrentLoggedInUserProfile: string;
     CurrentLoggedInUserEmailAddress: string;
+    LoginTime: string;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -45,6 +46,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
         this.CurrentLoggedInUser = 'Support';
         this.CurrentLoggedInUserEmailAddress = 'support@exalca.com';
         this.CurrentLoggedInUserProfile = 'assets/images/avatars/support.png';
+        this.LoginTime = '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -135,6 +137,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
             this.authenticationDetails = JSON.parse(retrievedObject) as AuthenticationDetails;
             this.CurrentLoggedInUser = this.authenticationDetails.displayName;
             this.CurrentLoggedInUserEmailAddress = this.authenticationDetails.emailAddress;
+            this.LoginTime = this.authenticationDetails.loginTime;
             // if (this.authenticationDetails.profile && this.authenticationDetails.profile !== 'Empty') {
             //     this.CurrentLoggedInUserProfile = this.authenticationDetails.profile;
             // }

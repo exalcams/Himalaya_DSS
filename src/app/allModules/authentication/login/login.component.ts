@@ -103,6 +103,8 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.IsProgressBarVisibile = false;
           const dat = data as AuthenticationDetails;
+          dat.expires = dat['.expires'];
+          dat.issued = dat['.issued'];
           if (data.isChangePasswordRequired === 'Yes') {
             this.OpenChangePasswordDialog(dat);
           } else {
@@ -128,6 +130,7 @@ export class LoginComponent implements OnInit {
   }
 
   saveUserDetails(data: AuthenticationDetails): void {
+    sessionStorage.setItem('authorizationData1', JSON.stringify(data));
     localStorage.setItem('authorizationData', JSON.stringify(data));
     this.UpdateMenu();
     this.notificationSnackBarComponent.openSnackBar('Logged in successfully', SnackBarStatus.success);

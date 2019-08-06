@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Compiler, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,10 @@ import { navigation } from 'app/navigation/navigation';
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 import { MenuUpdataionService } from './services/menu-update.service';
+import { BnNgIdleService } from 'bn-ng-idle';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { AuthenticationDetails } from './models/master';
 
 @Component({
     selector: 'app',
@@ -24,10 +28,10 @@ import { MenuUpdataionService } from './services/menu-update.service';
 export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
-
+    authenticationDetails: AuthenticationDetails;
     // Private
     private _unsubscribeAll: Subject<any>;
-
+    
     /**
      * Constructor
      *
@@ -50,7 +54,39 @@ export class AppComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _platform: Platform,
         private _menuUpdationService: MenuUpdataionService,
+        private _authService: AuthService,
+        private bnIdle: BnNgIdleService,
+        private _router: Router,
+        private _compiler: Compiler,
     ) {
+        this.authenticationDetails = new AuthenticationDetails();
+        this.bnIdle.startWatching(300).subscribe((res) => {
+            if (res) {
+                // Retrive authorizationData
+                const retrievedObject = localStorage.getItem('authorizationData');
+                if (retrievedObject) {
+                    this.authenticationDetails = JSON.parse(retrievedObject) as AuthenticationDetails;
+                    this._authService.SignOut(this.authenticationDetails.userID).subscribe(
+                        (data) => {
+                            localStorage.removeItem('authorizationData');
+                            localStorage.removeItem('menuItemsData');
+                            this._compiler.clearCache();
+                            this._router.navigate(['auth/login']);
+                            // this.notificationSnackBarComponent.openSnackBar('Signed out successfully', SnackBarStatus.success);
+                        },
+                        (err) => {
+                            console.error(err);
+                            // this.notificationSnackBarComponent.openSnackBar(err instanceof Object ? 'Something went wrong' : err, SnackBarStatus.danger);
+                        }
+                    );
+                } else {
+                    localStorage.removeItem('authorizationData');
+                    localStorage.removeItem('menuItemsData');
+                    this._compiler.clearCache();
+                    this._router.navigate(['auth/login']);
+                }
+            }
+        });
         // Get default navigation
         this.navigation = navigation;
 
@@ -145,6 +181,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
+
+
 
         // Retrive menu items from Local Storage    
         const menuItems = localStorage.getItem('menuItemsData');
