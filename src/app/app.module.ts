@@ -21,6 +21,7 @@ import { DatePipe } from '@angular/common';
 import { NotificationDialogComponent } from './notifications/notification-dialog/notification-dialog.component';
 import { WINDOW_PROVIDERS } from './window.providers';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 
 const appRoutes: Routes = [
@@ -84,6 +85,7 @@ const appRoutes: Routes = [
         DatePipe,
         WINDOW_PROVIDERS,
         { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
         BnNgIdleService
     ],
     bootstrap: [

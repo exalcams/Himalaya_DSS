@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, OnDestroy } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as shape from 'd3-shape';
 
 // import { fuseAnimations } from '@fuse/animations';
@@ -36,7 +36,7 @@ import { ExcelService } from 'app/services/excel.service';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   authenticationDetails: AuthenticationDetails;
   MenuItems: string[];
   UserEmailAddress: string;
@@ -98,6 +98,9 @@ export class DashboardComponent implements OnInit {
   AllDocumentTypeNameCompleted: boolean;
   AllOutputTypeNameCompleted: boolean;
   notificationSnackBarComponent: NotificationSnackBarComponent;
+  // Private
+  private _unsubscribeAll: Subject<any>;
+
   constructor(public _matDialog: MatDialog,
     public dashboardService: DashboardService,
     public masterService: MasterService,
@@ -131,6 +134,8 @@ export class DashboardComponent implements OnInit {
     this.notificationSnackBarComponent = new NotificationSnackBarComponent(this.snackBar);
     this.isDateError = false;
     this.isInvoiceError = false;
+    this._unsubscribeAll = new Subject();
+
   }
 
   ngOnInit(): void {
@@ -164,7 +169,12 @@ export class DashboardComponent implements OnInit {
       this._router.navigate(['/auth/login']);
     }
   }
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
 
+  }
   UpdateConfigUser(): void {
     const dialogConfig: MatDialogConfig = {
       data: this.UserName,

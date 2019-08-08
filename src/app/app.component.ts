@@ -19,6 +19,9 @@ import { BnNgIdleService } from 'bn-ng-idle';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { AuthenticationDetails } from './models/master';
+import { NotificationSnackBarComponent } from './notifications/notification-snack-bar/notification-snack-bar.component';
+import { MatSnackBar } from '@angular/material';
+import { SnackBarStatus } from './notifications/notification-snack-bar/notification-snackbar-status-enum';
 
 @Component({
     selector: 'app',
@@ -29,9 +32,10 @@ export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
     authenticationDetails: AuthenticationDetails;
+    notificationSnackBarComponent: NotificationSnackBarComponent;
     // Private
     private _unsubscribeAll: Subject<any>;
-    
+
     /**
      * Constructor
      *
@@ -58,9 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
         private bnIdle: BnNgIdleService,
         private _router: Router,
         private _compiler: Compiler,
+        public snackBar: MatSnackBar,
     ) {
         this.authenticationDetails = new AuthenticationDetails();
-        this.bnIdle.startWatching(300).subscribe((res) => {
+        this.notificationSnackBarComponent = new NotificationSnackBarComponent(this.snackBar);
+        this.bnIdle.startWatching(1800).subscribe((res) => {
             if (res) {
                 // Retrive authorizationData
                 const retrievedObject = localStorage.getItem('authorizationData');
@@ -72,19 +78,29 @@ export class AppComponent implements OnInit, OnDestroy {
                             localStorage.removeItem('menuItemsData');
                             this._compiler.clearCache();
                             this._router.navigate(['auth/login']);
-                            // this.notificationSnackBarComponent.openSnackBar('Signed out successfully', SnackBarStatus.success);
+                            console.error('Idle timout occurred , please login again');
+                            this.notificationSnackBarComponent.openSnackBar('Idle timout occurred , please login again', SnackBarStatus.danger);
                         },
                         (err) => {
                             console.error(err);
                             // this.notificationSnackBarComponent.openSnackBar(err instanceof Object ? 'Something went wrong' : err, SnackBarStatus.danger);
+                            localStorage.removeItem('authorizationData');
+                            localStorage.removeItem('menuItemsData');
+                            this._compiler.clearCache();
+                            this._router.navigate(['auth/login']);
+                            console.error('Idle timout occurred , please login again');
+                            this.notificationSnackBarComponent.openSnackBar('Idle timout occurred , please login again', SnackBarStatus.danger);
                         }
                     );
-                } else {
-                    localStorage.removeItem('authorizationData');
-                    localStorage.removeItem('menuItemsData');
-                    this._compiler.clearCache();
-                    this._router.navigate(['auth/login']);
-                }
+                } 
+                // else {
+                //     localStorage.removeItem('authorizationData');
+                //     localStorage.removeItem('menuItemsData');
+                //     this._compiler.clearCache();
+                //     this._router.navigate(['auth/login']);
+                //     console.error('Idle timout occurred , please login again');
+                //     this.notificationSnackBarComponent.openSnackBar('Idle timout occurred , please login again', SnackBarStatus.danger);
+                // }
             }
         });
         // Get default navigation

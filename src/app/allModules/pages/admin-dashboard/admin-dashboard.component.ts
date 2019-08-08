@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, AfterViewInit, OnChanges, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, AfterViewInit, OnChanges, ElementRef, OnDestroy } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as shape from 'd3-shape';
 
 // import { fuseAnimations } from '@fuse/animations';
@@ -35,7 +35,7 @@ import { ExcelService } from 'app/services/excel.service';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
   authenticationDetails: AuthenticationDetails;
   public reports: any;
   public expiredata: any;
@@ -100,6 +100,9 @@ export class AdminDashboardComponent implements OnInit {
   AllDocumentTypeNameCompleted: boolean;
   AllOutputTypeNameCompleted: boolean;
   notificationSnackBarComponent: NotificationSnackBarComponent;
+  // Private
+  private _unsubscribeAll: Subject<any>;
+
 
   constructor(public _matDialog: MatDialog,
     public dashboardService: DashboardService,
@@ -134,6 +137,8 @@ export class AdminDashboardComponent implements OnInit {
     this.notificationSnackBarComponent = new NotificationSnackBarComponent(this.snackBar);
     this.isDateError = false;
     this.isInvoiceError = false;
+    this._unsubscribeAll = new Subject();
+
   }
 
   ngOnInit(): void {
@@ -160,7 +165,12 @@ export class AdminDashboardComponent implements OnInit {
       this._router.navigate(['/auth/login']);
     }
   }
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
 
+  }
   tabone(): void {
     this.tab1 = true;
     this.tab2 = false;
