@@ -4,21 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     // tslint:disable-next-line:max-line-length
     MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule,
-    MatStepperModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule, MatSpinner, MatProgressSpinner, MatProgressSpinnerModule, MatTooltipModule
+    MatToolbarModule, MatProgressSpinnerModule, MatSidenavModule
+    // MatStepperModule, MatListModule, MatMenuModule, MatRadioModule, 
+    // MatSpinner, MatProgressSpinner, MatTooltipModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule } from '@fuse/components';
 import { FileUploadModule } from 'ng2-file-upload';
-// import { MenuAppComponent } from './menu-app/menu-app.component';
-// import { RoleComponent } from './role/role.component';
 import { UserComponent } from './user/user.component';
 import { UserSideBarComponent } from './user/user-side-bar/user-side-bar.component';
 import { UserMainContentComponent } from './user/user-main-content/user-main-content.component';
-// import { RoleSideBarComponent } from './role/role-side-bar/role-side-bar.component';
-// import { RoleMainContentComponent } from './role/role-main-content/role-main-content.component';
-// import { MenuAppSideBarComponent } from './menu-app/menu-app-side-bar/menu-app-side-bar.component';
-// import { MenuAppMainContentComponent } from './menu-app/menu-app-main-content/menu-app-main-content.component';
 import { DocumentTypeComponent } from './document-type/document-type.component';
 import { DocumentTypeMainContentComponent } from './document-type/document-type-main-content/document-type-main-content.component';
 import { DocumentTypeSideBarComponent } from './document-type/document-type-side-bar/document-type-side-bar.component';
@@ -36,22 +31,10 @@ import { PlantMainContentComponent } from './plant/plant-main-content/plant-main
 import { PlantSideBarComponent } from './plant/plant-side-bar/plant-side-bar.component';
 
 const menuRoutes: Routes = [
-    // {
-    //     path: 'menuApp',
-    //     component: MenuAppComponent,
-    // },
-    // {
-    //     path: 'role',
-    //     component: RoleComponent,
-    // },
     {
         path: 'user',
         component: UserComponent,
     },
-    // {
-    //     path: 'configuration',
-    //     component: UserPlantDocTypeComponent,
-    // },
     {
         path: 'priority',
         component: PriorityComponent,
@@ -83,12 +66,6 @@ const menuRoutes: Routes = [
         PlantComponent,
         PlantMainContentComponent,
         PlantSideBarComponent,
-        // RoleComponent,
-        // RoleSideBarComponent,
-        // RoleMainContentComponent,
-        // MenuAppComponent,
-        // MenuAppSideBarComponent,
-        // MenuAppMainContentComponent,
         DocumentTypeComponent,
         DocumentTypeMainContentComponent,
         DocumentTypeSideBarComponent,
@@ -103,16 +80,16 @@ const menuRoutes: Routes = [
         MatIconModule,
         MatInputModule,
         MatSelectModule,
-        MatStepperModule,
         MatProgressSpinnerModule,
-        MatListModule,
-        MatMenuModule,
-        MatRadioModule,
-        MatSidenavModule,
         MatToolbarModule,
-        MatTooltipModule,
         FuseSharedModule,
         FileUploadModule,
+        MatSidenavModule,
+        // MatStepperModule,
+        // MatListModule,
+        // MatMenuModule,
+        // MatRadioModule,
+        // MatTooltipModule,
         RouterModule.forChild(menuRoutes)
     ],
     providers: [

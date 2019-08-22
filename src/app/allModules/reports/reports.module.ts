@@ -3,56 +3,55 @@ import { RouterModule } from '@angular/router';
 
 import {
     MatFormFieldModule,
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
     MatButtonModule,
-    MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
     MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
     MatPaginatorModule,
-    MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
     MatSnackBarModule,
     MatSortModule,
-    MatStepperModule,
     MatTableModule,
-    MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
+
+    // MatTabsModule,
+    // MatTooltipModule,
+    // MatTreeModule,
+    // MatAutocompleteModule,
+    // MatBadgeModule,
+    // MatBottomSheetModule,
+    // MatButtonToggleModule,
+    // MatCheckboxModule,
+    // MatChipsModule,
+    // MatExpansionModule,
+    // MatGridListModule,
+    // MatIconModule,
+    // MatListModule,
+    // MatMenuModule,
+    // MatNativeDateModule,
+    // MatProgressBarModule,
+    // MatRadioModule,
+    // MatRippleModule,
+    // MatSidenavModule,
+    // MatSliderModule,
+    // MatSlideToggleModule,
+    // MatStepperModule,
+
+
 } from '@angular/material';
 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {
-    FuseCountdownModule,
-    FuseHighlightModule,
-    FuseMaterialColorPickerModule,
-    FuseWidgetModule
-} from '@fuse/components';
-
-
+// import { NgxChartsModule } from '@swimlane/ngx-charts';
+// import {
+//     FuseCountdownModule,
+//     FuseHighlightModule,
+//     FuseMaterialColorPickerModule,
+//     FuseWidgetModule
+// } from '@fuse/components';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-
-
 import { FormsModule } from '@angular/forms';
 import { ReportService } from 'app/services/report.service';
 import { LoginHistoryComponent } from './login-history/login-history.component';
@@ -71,54 +70,52 @@ const routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(routes),
-        // HttpClientModule,
-        // TranslateModule,
         MatFormFieldModule,
-        MatAutocompleteModule,
-        MatBadgeModule,
-        MatBottomSheetModule,
         MatButtonModule,
-        MatButtonToggleModule,
         MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatStepperModule,
         MatDatepickerModule,
         MatDialogModule,
         MatDividerModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
         MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatNativeDateModule,
         MatPaginatorModule,
-        MatProgressBarModule,
         MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
         MatSelectModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatSlideToggleModule,
         MatSnackBarModule,
         MatSortModule,
         MatTableModule,
-        MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule,
-        MatTreeModule,
 
-        NgxChartsModule,
+        // MatTabsModule,
+        // MatTooltipModule,
+        // MatTreeModule,
+        // MatAutocompleteModule,
+        // MatBadgeModule,
+        // MatBottomSheetModule,
+        // MatButtonToggleModule,
+        // MatCheckboxModule,
+        // MatChipsModule,
+        // MatStepperModule,
+        // MatExpansionModule,
+        // MatGridListModule,
+        // MatIconModule,
+        // MatListModule,
+        // MatMenuModule,
+        // MatNativeDateModule,
+        // MatProgressBarModule,
+        // MatRadioModule,
+        // MatRippleModule,
+        // MatSidenavModule,
+        // MatSliderModule,
+        // MatSlideToggleModule,
+
+        // NgxChartsModule,
+
+        // FuseCountdownModule,
+        // FuseHighlightModule,
+        // FuseMaterialColorPickerModule,
+        // FuseWidgetModule,
 
         FuseSharedModule,
-
-        FuseCountdownModule,
-        FuseHighlightModule,
-        FuseMaterialColorPickerModule,
-        FuseWidgetModule,
-
         FormsModule,
     ],
     declarations: [LoginHistoryComponent],

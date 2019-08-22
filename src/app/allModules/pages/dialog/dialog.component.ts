@@ -1,11 +1,10 @@
 import { Component, Inject, ViewEncapsulation, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DSSConfiguration, CertificateClass, UserByPlant } from 'app/models/dss';
 import { DashboardService } from 'app/services/dashboard.service';
 import { MasterService } from 'app/services/master.service';
-import { DISABLED } from '@angular/forms/src/model';
-import { PlantView, DocumentTypeView, OutputTypeView } from 'app/models/master';
+import { PlantView, OutputTypeView } from 'app/models/master';
 
 @Component({
     selector: 'app-dialog',
@@ -212,7 +211,7 @@ export class DialogComponent implements OnInit {
     //         // this.ConfigurationFormGroup.get('DisplayTitle1').patchValue('');
     //     }
     // }
-    Priority1UserSelected(Priority1User: string): void {
+    Priority1UserSelected(): void {
         // console.log('Called');
         // if (Priority1User) {
         //     const res = this.AllFilteredUsersByPlant.filter(x => x.UserName === Priority1User)[0];
@@ -222,7 +221,7 @@ export class DialogComponent implements OnInit {
         // }
         this.DisableMatOptions();
     }
-    PriorityUserSelected(PriorityUser: string): void {
+    PriorityUserSelected(): void {
         // const res = this.AllFilteredUsersByPlant.filter(x => x.UserName === PriorityUser)[0];
         // if (res) {
         //     this.ConfigurationFormGroup.get('DisplayTitle1').patchValue(res.DisplayTitle);

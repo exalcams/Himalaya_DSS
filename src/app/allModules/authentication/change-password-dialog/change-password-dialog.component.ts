@@ -43,9 +43,14 @@ export class ChangePasswordDialogComponent implements OnInit {
       this.changePassword = new ChangePassword();
       this.changePassword.CurrentPassword = this.resetPasswordForm.get('currentPassword').value;
       this.changePassword.NewPassword = this.resetPasswordForm.get('newPassword').value;
+      const confirmPassword = this.resetPasswordForm.get('confirmPassword').value;
       if (this.changePassword.CurrentPassword === this.changePassword.NewPassword) {
-        this.notificationSnackBarComponent.openSnackBar('new password should be different from old password', SnackBarStatus.danger);
-      } else {
+        this.notificationSnackBarComponent.openSnackBar('New password should be different from old password', SnackBarStatus.danger);
+      } 
+      else if (this.changePassword.NewPassword !== confirmPassword) {
+        this.notificationSnackBarComponent.openSnackBar('Confirm password should be same as new password', SnackBarStatus.danger);
+      }
+      else {
         this.matDialogRef.close(this.changePassword);
       }
     } else {

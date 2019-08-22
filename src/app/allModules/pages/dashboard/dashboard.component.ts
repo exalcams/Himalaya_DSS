@@ -1,32 +1,21 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, OnDestroy } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import * as shape from 'd3-shape';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 
-// import { fuseAnimations } from '@fuse/animations';
-
-// import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
-
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { FuseConfigService } from '@fuse/services/config.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { fuseAnimations } from '@fuse/animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { DSSInvoice, FilterClass, DSSConfiguration, DSSStatusCount, DSSErrorInvoice, ErrorInvoice } from 'app/models/dss';
+import { DSSInvoice, FilterClass, DSSConfiguration, DSSStatusCount, ErrorInvoice } from 'app/models/dss';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NotificationDialogComponent } from 'app/notifications/notification-dialog/notification-dialog.component';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
-import { AuthenticationDetails, OutputTypeView, DocumentOutputType, DocumentTypeView, PlantView, DocumentOutputTypeMapView, UserPlantMapView } from 'app/models/master';
+import { AuthenticationDetails, OutputTypeView, DocumentTypeView, PlantView, DocumentOutputTypeMapView, UserPlantMapView } from 'app/models/master';
 import { Router } from '@angular/router';
 import { DashboardService } from 'app/services/dashboard.service';
 import { PdfDialogComponent } from '../pdf-dialog/pdf-dialog.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MasterService } from 'app/services/master.service';
-import { CustomValidator } from 'app/shared/custom-validator';
-import { ConfigUserUpdateDialogComponent } from '../config-user-update-dialog/config-user-update-dialog.component';
 import { ExcelService } from 'app/services/excel.service';
 
 @Component({
@@ -175,30 +164,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
 
   }
-  UpdateConfigUser(): void {
-    const dialogConfig: MatDialogConfig = {
-      data: this.UserName,
-      panelClass: 'config-user-dialog'
-    };
-    const dialogRef = this.dialog.open(ConfigUserUpdateDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          const SignedAuthority = result as string;
-          this.dashboardService.UpdateAllConfigurationsByUser(this.UserName, SignedAuthority).subscribe(
-            (res) => {
-              // console.log(res);
-              this.notificationSnackBarComponent.openSnackBar('Configurations updated successfully', SnackBarStatus.success);
-            }, (err) => {
-              this.notificationSnackBarComponent.openSnackBar(err instanceof Object ? 'Something went wrong' : err, SnackBarStatus.danger);
-              console.error(err);
-            }
-          );
-        }
-        this.authenticationDetails.isConfigurationDialog = 'No';
-        localStorage.setItem('authorizationData', JSON.stringify(this.authenticationDetails));
-      });
-  }
+  // UpdateConfigUser(): void {
+  //   const dialogConfig: MatDialogConfig = {
+  //     data: this.UserName,
+  //     panelClass: 'config-user-dialog'
+  //   };
+  //   const dialogRef = this.dialog.open(ConfigUserUpdateDialogComponent, dialogConfig);
+  //   dialogRef.afterClosed().subscribe(
+  //     result => {
+  //       if (result) {
+  //         const SignedAuthority = result as string;
+  //         this.dashboardService.UpdateAllConfigurationsByUser(this.UserName, SignedAuthority).subscribe(
+  //           (res) => {
+  //             // console.log(res);
+  //             this.notificationSnackBarComponent.openSnackBar('Configurations updated successfully', SnackBarStatus.success);
+  //           }, (err) => {
+  //             this.notificationSnackBarComponent.openSnackBar(err instanceof Object ? 'Something went wrong' : err, SnackBarStatus.danger);
+  //             console.error(err);
+  //           }
+  //         );
+  //       }
+  //       this.authenticationDetails.isConfigurationDialog = 'No';
+  //       localStorage.setItem('authorizationData', JSON.stringify(this.authenticationDetails));
+  //     });
+  // }
 
   tabone(): void {
     this.tab1 = true;
@@ -561,7 +550,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const DSSConfig = result as DSSConfiguration;
           this.IsProgressBarVisibile = true;
           this.dashboardService.UpdateConfiguration(DSSConfig).subscribe(
-            (data) => {
+            () => {
               this.IsProgressBarVisibile = false;
               this.notificationSnackBarComponent.openSnackBar('Configuration updated successfully', SnackBarStatus.success);
               this.GetAllConfigurationsByUser(this.UserName);
@@ -589,7 +578,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (result) {
           this.IsProgressBarVisibile = true;
           this.dashboardService.ActivateConfiguration(DSSConfig).subscribe(
-            (data) => {
+            () => {
               this.IsProgressBarVisibile = false;
               this.notificationSnackBarComponent.openSnackBar('Configuration activated successfully', SnackBarStatus.success);
               this.GetAllConfigurationsByUser(this.UserName);
@@ -617,7 +606,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
   }
-  ViewPdfFromID(ID: number, fileName: string): void {
+  ViewPdfFromID(ID: number): void {
     this.IsProgressBarVisibile = true;
     this.dashboardService.DowloandPdfFromID(ID).subscribe(
       data => {

@@ -1,31 +1,22 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, AfterViewInit, OnChanges, ElementRef, OnDestroy } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import * as shape from 'd3-shape';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 
-// import { fuseAnimations } from '@fuse/animations';
-
-// import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
-
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { FuseConfigService } from '@fuse/services/config.service';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig, MatSnackBar, Sort } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { fuseAnimations } from '@fuse/animations';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { DSSInvoice, FilterClass, DSSConfiguration, DSSStatusCount, DSSErrorInvoice, ErrorInvoice } from 'app/models/dss';
+import { DSSInvoice, FilterClass, DSSConfiguration, DSSStatusCount, ErrorInvoice } from 'app/models/dss';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NotificationDialogComponent } from 'app/notifications/notification-dialog/notification-dialog.component';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
-import { AuthenticationDetails, OutputType, OutputTypeView, DocumentOutputType, DocumentTypeView, PlantView, DocumentOutputTypeMapView, UserPlantMapView } from 'app/models/master';
+import { AuthenticationDetails, OutputTypeView, DocumentTypeView, PlantView, DocumentOutputTypeMapView, UserPlantMapView } from 'app/models/master';
 import { Router } from '@angular/router';
 import { DashboardService } from 'app/services/dashboard.service';
 import { PdfDialogComponent } from '../pdf-dialog/pdf-dialog.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MasterService } from 'app/services/master.service';
-import { CustomValidator } from 'app/shared/custom-validator';
 import { ExcelService } from 'app/services/excel.service';
 
 @Component({
@@ -532,7 +523,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
 
-  ViewPdfFromID(ID: number, fileName: string): void {
+  ViewPdfFromID(ID: number): void {
     this.IsProgressBarVisibile = true;
     this.dashboardService.DowloandPdfFromID(ID).subscribe(
       data => {
@@ -571,7 +562,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           DSSConfig.CREATED_BY = this.authenticationDetails.userName;
           this.IsProgressBarVisibile = true;
           this.dashboardService.CreateConfiguration(DSSConfig).subscribe(
-            (data) => {
+            () => {
               this.IsProgressBarVisibile = false;
               this.notificationSnackBarComponent.openSnackBar('Configuration created successfully', SnackBarStatus.success);
               this.GetAllConfigurations();
@@ -600,7 +591,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           DSSConfig.LASTMODIFIED_BY = this.authenticationDetails.userName;
           this.IsProgressBarVisibile = true;
           this.dashboardService.UpdateConfiguration(DSSConfig).subscribe(
-            (data) => {
+            () => {
               this.IsProgressBarVisibile = false;
               this.notificationSnackBarComponent.openSnackBar('Configuration updated successfully', SnackBarStatus.success);
               this.GetAllConfigurations();
@@ -631,7 +622,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           this.IsProgressBarVisibile = true;
           DSSConfig.LASTMODIFIED_BY = this.authenticationDetails.userName;
           this.dashboardService.DeleteConfiguration(DSSConfig).subscribe(
-            (data) => {
+            () => {
               this.IsProgressBarVisibile = false;
               this.notificationSnackBarComponent.openSnackBar('Configuration deleted successfully', SnackBarStatus.success);
               this.GetAllConfigurations();
