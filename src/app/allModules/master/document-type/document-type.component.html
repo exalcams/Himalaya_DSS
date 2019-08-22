@@ -8,7 +8,7 @@
                   <document-type-side-bar [AllDocumentTypes]="AllDocumentTypes" (DocumentTypeSelectionChanged)="OnDocumentTypeSelectionChanged($event)">
                   </document-type-side-bar>
               </mat-sidenav>
-              <document-type-main-content [currentSelectedDocumentType]="SelectedDocumentType" (SaveSucceed)='RefreshAllDocumentTypes($event)'
+              <document-type-main-content [currentSelectedDocumentType]="SelectedDocumentType" (SaveSucceed)='RefreshAllDocumentTypes()'
                   (ShowProgressBarEvent)="OnShowProgressBarEvent($event)"></document-type-main-content>
           </mat-sidenav-container>
           <mat-progress-spinner *ngIf="IsProgressBarVisibile" class="ProgressBarPostion" color="accent" mode="indeterminate"></mat-progress-spinner>

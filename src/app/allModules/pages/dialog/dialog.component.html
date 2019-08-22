@@ -98,7 +98,7 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Priority1 User" (selectionChange)="Priority1UserSelected($event.value)"
+                <mat-select placeholder="Priority1 User" (selectionChange)="Priority1UserSelected()"
                     formControlName="Priority1User" required>
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
@@ -111,7 +111,7 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Priority2 User" (selectionChange)="PriorityUserSelected($event.value)"
+                <mat-select placeholder="Priority2 User" (selectionChange)="PriorityUserSelected()"
                     formControlName="Priority2User">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
@@ -124,7 +124,7 @@
             </mat-error> -->
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Priority3 User" (selectionChange)="PriorityUserSelected($event.value)"
+                <mat-select placeholder="Priority3 User" (selectionChange)="PriorityUserSelected()"
                     formControlName="Priority3User">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
@@ -137,7 +137,7 @@
             </mat-error> -->
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Priority4 User" (selectionChange)="PriorityUserSelected($event.value)"
+                <mat-select placeholder="Priority4 User" (selectionChange)="PriorityUserSelected()"
                     formControlName="Priority4User">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
@@ -150,7 +150,7 @@
             </mat-error> -->
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Priority5 User" (selectionChange)="PriorityUserSelected($event.value)"
+                <mat-select placeholder="Priority5 User" (selectionChange)="PriorityUserSelected()"
                     formControlName="Priority5User">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let ema of AllFilteredUsersByPlant" [value]="ema.UserName"
