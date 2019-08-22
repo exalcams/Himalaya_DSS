@@ -2,10 +2,8 @@ import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnCh
 import { fuseAnimations } from '@fuse/animations';
 import { MasterService } from 'app/services/master.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Guid } from 'guid-typescript';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar, MatDialogConfig, MatDialog, MatOption } from '@angular/material';
-import { FileUploader, FileItem } from 'ng2-file-upload';
 import { AuthService } from 'app/services/auth.service';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
 import { NotificationDialogComponent } from 'app/notifications/notification-dialog/notification-dialog.component';
@@ -46,7 +44,7 @@ export class UserMainContentComponent implements OnInit, OnChanges {
     private _formBuilder: FormBuilder,
     public snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private _authService: AuthService) {
+    _authService: AuthService) {
     this.userMainFormGroup = this._formBuilder.group({
       userName: ['', Validators.required],
       userType: ['', Validators.required],
@@ -289,7 +287,7 @@ export class UserMainContentComponent implements OnInit, OnChanges {
               // this.user.Password = this.userMainFormGroup.get('password').value;
               this.user.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.UpdateUser(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User updated successfully', SnackBarStatus.success);
@@ -348,7 +346,7 @@ export class UserMainContentComponent implements OnInit, OnChanges {
               this.user.CreatedBy = this.authenticationDetails.userName.toString();
               // this.user.Profile = this.slectedProfile;
               this._masterService.CreateUser(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User created successfully', SnackBarStatus.success);
@@ -415,7 +413,7 @@ export class UserMainContentComponent implements OnInit, OnChanges {
               // this.user.Password = this.userMainFormGroup.get('password').value;
               this.user.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.DeleteUser(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User deleted successfully', SnackBarStatus.success);

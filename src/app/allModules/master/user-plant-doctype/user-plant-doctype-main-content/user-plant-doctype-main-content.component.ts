@@ -2,15 +2,13 @@ import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnCh
 import { fuseAnimations } from '@fuse/animations';
 import { MasterService } from 'app/services/master.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Guid } from 'guid-typescript';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
-import { FileUploader, FileItem } from 'ng2-file-upload';
 import { AuthService } from 'app/services/auth.service';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
 import { NotificationDialogComponent } from 'app/notifications/notification-dialog/notification-dialog.component';
 import { Router } from '@angular/router';
-import { UserWithRole, RoleWithApp, AuthenticationDetails, UserPlantDocumentType, DocumentTypeView, PlantView, PriorityView } from 'app/models/master';
+import { AuthenticationDetails, UserPlantDocumentType, DocumentTypeView, PlantView, PriorityView } from 'app/models/master';
 
 @Component({
   selector: 'user-plant-doctype-main-content',
@@ -42,7 +40,7 @@ export class UserPlantDocTypeMainContentComponent implements OnInit, OnChanges {
     private _formBuilder: FormBuilder,
     public snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private _authService: AuthService) {
+    _authService: AuthService) {
     this.userConfigMainFormGroup = this._formBuilder.group({
       userName: ['', Validators.required],
       plant: ['', Validators.required],
@@ -155,7 +153,7 @@ export class UserPlantDocTypeMainContentComponent implements OnInit, OnChanges {
               // this.user.DisplayTitle = this.userConfigMainFormGroup.get('displayTitle').value;
               this.user.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.UpdateUserPlantDocumentType(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User configuration updated successfully', SnackBarStatus.success);
@@ -195,7 +193,7 @@ export class UserPlantDocTypeMainContentComponent implements OnInit, OnChanges {
               this.user.CreatedBy = this.authenticationDetails.userName.toString();
               // this.user.Profile = this.slectedProfile;
               this._masterService.CreateUserPlantDocumentType(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User configuration created successfully', SnackBarStatus.success);
@@ -242,7 +240,7 @@ export class UserPlantDocTypeMainContentComponent implements OnInit, OnChanges {
               // this.user.DisplayTitle = this.userConfigMainFormGroup.get('displayTitle').value;
               this.user.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.DeleteUserPlantDocumentType(this.user).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('User configuration deleted successfully', SnackBarStatus.success);

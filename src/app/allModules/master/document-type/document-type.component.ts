@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
-import { DocumentTypes, AuthenticationDetails, DocumentOutputType } from 'app/models/master';
+import { AuthenticationDetails, DocumentOutputType } from 'app/models/master';
 
 @Component({
   selector: 'document-type',
@@ -72,7 +72,7 @@ export class DocumentTypeComponent implements OnInit {
 
   }
 
-  RefreshAllDocumentTypes(msg: string): void {
+  RefreshAllDocumentTypes(): void {
     // console.log(msg);
     this.GetAllDocumentTypes();
   }

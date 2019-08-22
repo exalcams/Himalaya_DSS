@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { MasterService } from 'app/services/master.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
 import { NotificationDialogComponent } from 'app/notifications/notification-dialog/notification-dialog.component';
 import { Router } from '@angular/router';
-import { DocumentTypes, AuthenticationDetails, OutputType, DocumentOutputType } from 'app/models/master';
+import { AuthenticationDetails, OutputType, DocumentOutputType } from 'app/models/master';
 
 @Component({
   selector: 'document-type-main-content',
@@ -102,7 +102,7 @@ export class DocumentTypeMainContentComponent implements OnInit, OnChanges {
               this.documentType.OutputType_ID_List = <string[]>this.documentTypeMainFormGroup.get('outputTypeIDList').value;
               this.documentType.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.UpdateDocumentType(this.documentType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Document Type updated successfully', SnackBarStatus.success);
@@ -140,7 +140,7 @@ export class DocumentTypeMainContentComponent implements OnInit, OnChanges {
               this.documentType.OutputType_ID_List = <string[]>this.documentTypeMainFormGroup.get('outputTypeIDList').value;
               this.documentType.CreatedBy = this.authenticationDetails.userName.toString();
               this._masterService.CreateDocumentType(this.documentType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Document Type created successfully', SnackBarStatus.success);
@@ -187,7 +187,7 @@ export class DocumentTypeMainContentComponent implements OnInit, OnChanges {
               this.documentType.OutputType_ID_List = <string[]>this.documentTypeMainFormGroup.get('outputTypeIDList').value;
               this.documentType.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.DeleteDocumentType(this.documentType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Document Type deleted successfully', SnackBarStatus.success);

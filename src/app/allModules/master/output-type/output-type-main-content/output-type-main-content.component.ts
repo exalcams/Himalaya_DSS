@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { MasterService } from 'app/services/master.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
@@ -81,7 +81,7 @@ export class OutputTypeMainContentComponent implements OnInit, OnChanges {
               this.OutputType.OutputType_Name = this.OutputTypeMainFormGroup.get('OutputTypeName').value; 
               this.OutputType.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.UpdateOutputType(this.OutputType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Output Type updated successfully', SnackBarStatus.success);
@@ -116,7 +116,7 @@ export class OutputTypeMainContentComponent implements OnInit, OnChanges {
               this.OutputType.OutputType_Name = this.OutputTypeMainFormGroup.get('OutputTypeName').value;
               this.OutputType.CreatedBy = this.authenticationDetails.userName.toString();
               this._masterService.CreateOutputType(this.OutputType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Output Type created successfully', SnackBarStatus.success);
@@ -160,7 +160,7 @@ export class OutputTypeMainContentComponent implements OnInit, OnChanges {
               this.OutputType.OutputType_Name = this.OutputTypeMainFormGroup.get('OutputTypeName').value;
               this.OutputType.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.DeleteOutputType(this.OutputType).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Output Type deleted successfully', SnackBarStatus.success);

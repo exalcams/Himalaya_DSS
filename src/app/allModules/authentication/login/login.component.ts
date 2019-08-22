@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
-import { Observable, Subject } from 'rxjs';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 // import { LoginService } from 'app/services/login.service';
 // import { UserDetails } from 'app/models/user-details';
@@ -32,7 +31,6 @@ export class LoginComponent implements OnInit {
   children: FuseNavigation[] = [];
   subChildren: FuseNavigation[] = [];
   reportsSubChildren: FuseNavigation[] = [];
-  private _unsubscribeAll: Subject<any>;
   message = 'Snack Bar opened.';
   actionButtonLabel = 'Retry';
   action = true;
@@ -44,7 +42,6 @@ export class LoginComponent implements OnInit {
   IsProgressBarVisibile: boolean;
 
   constructor(
-    private _fuseNavigationService: FuseNavigationService,
     private _fuseConfigService: FuseConfigService,
     private _formBuilder: FormBuilder,
     private _router: Router,
@@ -154,7 +151,7 @@ export class LoginComponent implements OnInit {
           changePassword.UserID = data.userID;
           changePassword.UserName = data.userName;
           this._authService.ChangePassword(changePassword).subscribe(
-            (res) => {
+            () => {
               // console.log(res);
               // this.notificationSnackBarComponent.openSnackBar('Password updated successfully', SnackBarStatus.success);
               this.notificationSnackBarComponent.openSnackBar('Password updated successfully, please log with new password', SnackBarStatus.success);

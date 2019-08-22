@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnCh
 import { fuseAnimations } from '@fuse/animations';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar } from '@angular/material';
-import { DocumentTypes, DocumentOutputType } from 'app/models/master';
+import { DocumentOutputType } from 'app/models/master';
 
 @Component({
   selector: 'document-type-side-bar',

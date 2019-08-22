@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { MasterService } from 'app/services/master.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationSnackBarComponent } from 'app/notifications/notification-snack-bar/notification-snack-bar.component';
 import { MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
 import { SnackBarStatus } from 'app/notifications/notification-snack-bar/notification-snackbar-status-enum';
@@ -81,7 +81,7 @@ export class PriorityMainContentComponent implements OnInit, OnChanges {
               this.Priority.Priority_Name = this.PriorityMainFormGroup.get('PriorityName').value;
               this.Priority.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.UpdatePriority(this.Priority).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Priority updated successfully', SnackBarStatus.success);
@@ -116,7 +116,7 @@ export class PriorityMainContentComponent implements OnInit, OnChanges {
               this.Priority.Priority_Name = this.PriorityMainFormGroup.get('PriorityName').value;
               this.Priority.CreatedBy = this.authenticationDetails.userName.toString();
               this._masterService.CreatePriority(this.Priority).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Priority created successfully', SnackBarStatus.success);
@@ -160,7 +160,7 @@ export class PriorityMainContentComponent implements OnInit, OnChanges {
               this.Priority.Priority_Name = this.PriorityMainFormGroup.get('PriorityName').value;
               this.Priority.ModifiedBy = this.authenticationDetails.userName.toString();
               this._masterService.DeletePriority(this.Priority).subscribe(
-                (data) => {
+                () => {
                   // console.log(data);
                   this.ResetControl();
                   this.notificationSnackBarComponent.openSnackBar('Priority deleted successfully', SnackBarStatus.success);
