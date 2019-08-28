@@ -486,10 +486,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         // this.getDocument.ToDate = this.documentFormGroup.get('ToDate').value;
         this.dashboardService.GetAllInvoicesBasedOnDate(this.getDocument)
           .subscribe((data) => {
-            this.AllSignedDocument = <DSSInvoice[]>data;
-            this.SignDocumentsDataSource = new MatTableDataSource(this.AllSignedDocument);
-            this.SignDocumentsDataSource.paginator = this.SignDocumentsPaginator;
-            this.SignDocumentsDataSource.sort = this.SignDocumentsSort;
+            if (data) {
+              this.AllSignedDocument = <DSSInvoice[]>data;
+              this.SignDocumentsDataSource = new MatTableDataSource(this.AllSignedDocument);
+              this.SignDocumentsDataSource.paginator = this.SignDocumentsPaginator;
+              this.SignDocumentsDataSource.sort = this.SignDocumentsSort;
+            }
             this.IsProgressBarVisibile = false;
           },
             (err) => {
@@ -509,8 +511,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.IsProgressBarVisibile = true;
     this.dashboardService.DowloandPdfFromID(ID).subscribe(
       data => {
-        const BlobFile = data as Blob;
-        saveAs(BlobFile, fileName);
+        if (data) {
+          const BlobFile = data as Blob;
+          saveAs(BlobFile, fileName);
+        }
         this.IsProgressBarVisibile = false;
       },
       error => {
@@ -525,19 +529,21 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.IsProgressBarVisibile = true;
     this.dashboardService.DowloandPdfFromID(ID).subscribe(
       data => {
-        const file = new Blob([data], { type: 'application/pdf' });
-        // const fileURL = URL.createObjectURL(file);
-        // window.open(fileURL);
-        const dialogConfig: MatDialogConfig = {
-          data: file,
-          panelClass: 'pdf-dialog'
-        };
-        const dialogRef = this.dialog.open(PdfDialogComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(
-          result => {
-            if (result) {
-            }
-          });
+        if (data) {
+          const file = new Blob([data], { type: 'application/pdf' });
+          // const fileURL = URL.createObjectURL(file);
+          // window.open(fileURL);
+          const dialogConfig: MatDialogConfig = {
+            data: file,
+            panelClass: 'pdf-dialog'
+          };
+          const dialogRef = this.dialog.open(PdfDialogComponent, dialogConfig);
+          dialogRef.afterClosed().subscribe(
+            result => {
+              if (result) {
+              }
+            });
+        }
         this.IsProgressBarVisibile = false;
       },
       error => {

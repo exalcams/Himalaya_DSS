@@ -85,14 +85,26 @@ export class DashboardService {
       .pipe(catchError(this.errorHandler));
   }
   // GetAllInvoicesBasedOnDate(DocumentTypeName: string, FROMDATE: string, TODATE: string): Observable<DSSInvoice[] | string> {
+  // GetAllInvoicesBasedOnDate(getDocument: FilterClass): Observable<DSSInvoice[] | string> {
+  //   return this._httpClient.post<DSSInvoice[]>(`${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDate`,
+  //     getDocument,
+  //     {
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/json'
+  //       })
+  //     })
+  //     .pipe(catchError(this.errorHandler));
+  // }
   GetAllInvoicesBasedOnDate(getDocument: FilterClass): Observable<DSSInvoice[] | string> {
-    return this._httpClient.post<DSSInvoice[]>(`${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDate`,
-      getDocument,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      })
+    let url = `${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDate?`;
+    url += `FromDate=${getDocument.FromDate}&ToDate=${getDocument.ToDate}`;
+    url += getDocument.FromInvoice ? `&FromInvoice=${getDocument.FromInvoice}` : '';
+    url += getDocument.ToInvoice ? `&ToInvoice=${getDocument.ToInvoice}` : '';
+    url += getDocument.Plant_ID ? `&Plant_ID=${getDocument.Plant_ID}` : '';
+    url += getDocument.DocumentType_ID ? `&DocumentType_ID=${getDocument.DocumentType_ID}` : '';
+    url += getDocument.OutputType_ID ? `&OutputType_ID=${getDocument.OutputType_ID}` : '';
+    url += getDocument.Authority ? `&Authority=${getDocument.Authority}` : '';
+    return this._httpClient.get<DSSInvoice[]>(url)
       .pipe(catchError(this.errorHandler));
   }
   GetAllExpiredCertificates(): Observable<DSSConfiguration[] | string> {
@@ -186,14 +198,26 @@ export class DashboardService {
       .pipe(catchError(this.errorHandler));
   }
   // GetAllInvoicesBasedOnDateByUser(DocumentTypeName: string, FROMDATE: string, TODATE: string, UserName: string): Observable<DSSInvoice[] | string> {
+  // GetAllInvoicesBasedOnDateByUser(getDocument: FilterClass): Observable<DSSInvoice[] | string> {
+  //   return this._httpClient.post<DSSInvoice[]>(`${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDateByUser`,
+  //     getDocument,
+  //     {
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/json'
+  //       })
+  //     })
+  //     .pipe(catchError(this.errorHandler));
+  // }
   GetAllInvoicesBasedOnDateByUser(getDocument: FilterClass): Observable<DSSInvoice[] | string> {
-    return this._httpClient.post<DSSInvoice[]>(`${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDateByUser`,
-      getDocument,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      })
+    let url = `${this.baseUrl}api/ESigner/GetAllInvoicesBasedOnDateByUser?`;
+    url += `UserName=${getDocument.UserName}&FromDate=${getDocument.FromDate}&ToDate=${getDocument.ToDate}`;
+    url += getDocument.FromInvoice ? `&FromInvoice=${getDocument.FromInvoice}` : '';
+    url += getDocument.ToInvoice ? `&ToInvoice=${getDocument.ToInvoice}` : '';
+    url += getDocument.Plant_ID ? `&Plant_ID=${getDocument.Plant_ID}` : '';
+    url += getDocument.DocumentType_ID ? `&DocumentType_ID=${getDocument.DocumentType_ID}` : '';
+    url += getDocument.OutputType_ID ? `&OutputType_ID=${getDocument.OutputType_ID}` : '';
+    url += getDocument.Authority ? `&Authority=${getDocument.Authority}` : '';
+    return this._httpClient.get<DSSInvoice[]>(url)
       .pipe(catchError(this.errorHandler));
   }
   GetAllExpiredCertificatesByUser(UserName: string): Observable<DSSConfiguration[] | string> {
