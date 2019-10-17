@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { DSSConfiguration, DSSInvoice, DSSStatusCount, CertificateClass, DSSErrorInvoice, UserByPlant, ErrorInvoice } from 'app/models/dss';
 import { catchError } from 'rxjs/operators';
-import { UserLoginHistory, LoginHistoryFilter } from 'app/models/master';
+import { UserLoginHistory, LoginHistoryFilter, UserAudit } from 'app/models/master';
 
 @Injectable()
 export class ReportService {
@@ -54,6 +54,16 @@ export class ReportService {
           'Content-Type': 'application/json'
         })
       })
+      .pipe(catchError(this.errorHandler));
+  }
+
+  GetAllLoginUserAudits(): Observable<UserAudit[] | string> {
+    return this._httpClient.get<UserAudit[]>(`${this.baseUrl}api/Reports/GetAllLoginUserAudits`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  GetUserAuditBasedOnCondition(Plant: string, LoginStatus: string): Observable<UserAudit[] | string> {
+    return this._httpClient.get<UserAudit[]>(`${this.baseUrl}api/Reports/GetUserAuditBasedOnCondition?Plant=${Plant}&LoginStatus=${LoginStatus}`)
       .pipe(catchError(this.errorHandler));
   }
 

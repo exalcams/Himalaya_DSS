@@ -344,7 +344,17 @@ export class LoginComponent implements OnInit {
         }
       );
     }
-    if (this.MenuItems.indexOf('LoginHistory') >= 0) {
+    if (this.MenuItems.indexOf('UserAudit') >= 0) {
+      this.reportsSubChildren.push(
+        {
+          id: 'UserAudit',
+          title: 'User Audit',
+          type: 'item',
+          url: '/reports/userAudit'
+        }
+      );
+    }
+    if (this.MenuItems.indexOf('LoginHistory') >= 0 || this.MenuItems.indexOf('UserAudit') >= 0) {
       this.children.push({
         id: 'reports',
         title: 'Reports',

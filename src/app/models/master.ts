@@ -187,5 +187,16 @@ export class UserNotification {
     ModifiedOn?: Date;
 }
 
+export class UserAudit {
+    UserID: number;
+    UserName: string;
+    Plant_ID: string;
+    Plant_Name: string;
+    Email: string;
+    ContactNumber: string;
+    LoginTime?: Date;
+    LogoutTime?: Date;
+}
+
 
 
