@@ -227,7 +227,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           this.SignDocumentsDataSource = new MatTableDataSource(this.AllSignedDocument);
           this.SignDocumentsDataSource.paginator = this.SignDocumentsPaginator;
           this.SignDocumentsDataSource.sort = this.SignDocumentsSort;
-          this.DSSStatusCount.SignedDocumnentCount = this.AllSignedDocument.length;
+          // this.DSSStatusCount.SignedDocumnentCount = this.AllSignedDocument.length;
         }
         this.IsAllSignedDocumentCompleted = true;
         this.IsProgressBarVisibile = false;
