@@ -64,7 +64,7 @@
     "ngx-color-picker": "6.6.0",
     "ngx-cookie-service": "1.0.10",
     "perfect-scrollbar": "1.4.0",
-    "prismjs": "1.15.0",
+    "prismjs": "1.21.0",
     "rxjs": "6.2.2",
     "rxjs-compat": "6.2.2",
     "tslib": "^1.9.0",
