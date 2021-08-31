@@ -5,8 +5,10 @@
 export const environment = {
     production: false,
     hmr       : false,
-    baseAddress : 'http://localhost:4009/',
-    clientId : 'ngAuthApp'
+    // baseAddress : 'http://localhost:4009/',
+    baseAddress : 'https://himapps.himalayawellness.com/digitalsignatureService/',
+    clientId : 'ngAuthApp',
+    backupDays:14
 };
 
 /*
