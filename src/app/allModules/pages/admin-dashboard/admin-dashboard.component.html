@@ -5,14 +5,14 @@
       <div fxFlex class="mb-0">
         <div class="container m-12" fxLayout fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center"
           fxLayoutGap="10px" fxLayoutGap.xs="10">
-          <div fxFlex class="TileClass successBgColor" (click)="tabone()">
-            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
-              <div fxFlex="70%">
+          <div fxFlex fxLayoutAlign="start center" class="TileClass successBgColor" (click)="tabone()">
+            <div class="container" fxFlex fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+              <div fxFlex="50%">
                 <h2 class="titleClass">
                   Signed Documents
                 </h2>
               </div>
-              <div fxFlex="30%">
+              <div fxFlex="50%">
                 <h2 class="subTitleClass">
                   {{DSSStatusCount?.SignedDocumnentCount}}
                 </h2>
@@ -20,14 +20,14 @@
             </div>
           </div>
 
-          <div fxFlex class="TileClass primaryBgColor" (click)="tabtwo()">
-            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
-              <div fxFlex="70%">
+          <div fxFlex fxLayoutAlign="start center" class="TileClass primaryBgColor" (click)="tabtwo()">
+            <div class="container" fxFlex fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+              <div fxFlex="50%">
                 <h2 class="titleClass">
                   Certificates
                 </h2>
               </div>
-              <div fxFlex="30%">
+              <div fxFlex="50%">
                 <h2 class="subTitleClass">
                   {{DSSStatusCount?.ConfigurationCount}}
                 </h2>
@@ -35,28 +35,28 @@
             </div>
           </div>
 
-          <div fxFlex class="TileClass warningBgColor" (click)="tabthree()">
-            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
-              <div fxFlex="70%">
+          <div fxFlex fxLayoutAlign="start center" class="TileClass warningBgColor" (click)="tabthree()">
+            <div class="container" fxFlex fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+              <div fxFlex="50%">
                 <h2 class="titleClass">
                   Expired Cerificates
                 </h2>
               </div>
-              <div fxFlex="30%">
+              <div fxFlex="50%">
                 <h2 class="subTitleClass">
                   {{DSSStatusCount?.ExpiryCerificateCount}}
                 </h2>
               </div>
             </div>
           </div>
-          <div fxFlex class="TileClass dangerBgColor" (click)="tabfour()">
-            <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
-              <div fxFlex="70%">
+          <div fxFlex fxLayoutAlign="start center" class="TileClass dangerBgColor" (click)="tabfour()">
+            <div class="container" fxFlex fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+              <div fxFlex="50%">
                 <h2 class="titleClass">
                   Error Documents
                 </h2>
               </div>
-              <div fxFlex="30%">
+              <div fxFlex="50%">
                 <h2 class="subTitleClass">
                   {{DSSStatusCount?.ErrorDocumentCount}}
                 </h2>
@@ -75,7 +75,7 @@
           <div FxLayout="row" class="formRowStyle" fxLayout.xs="column">
             <div fxFlex>
               <mat-form-field>
-                <input matInput pattern="^\d+$" placeholder="From Invoice" (keyup)="InvoiceKeyUp()"
+                <input matInput placeholder="From Invoice" (keyup)="InvoiceKeyUp()"
                   formControlName="FromInvoice">
                 <mat-error
                   *ngIf="documentFormGroup.get('FromInvoice').touched && documentFormGroup.get('FromInvoice').hasError('required')">
@@ -89,7 +89,7 @@
             </div>
             <div fxFlex>
               <mat-form-field>
-                <input matInput pattern="^\d+$" placeholder="To Invoice" (keyup)="InvoiceKeyUp()"
+                <input matInput placeholder="To Invoice" (keyup)="InvoiceKeyUp()"
                   formControlName="ToInvoice">
                 <mat-error
                   *ngIf="documentFormGroup.get('ToInvoice').touched && documentFormGroup.get('ToInvoice').hasError('required')">

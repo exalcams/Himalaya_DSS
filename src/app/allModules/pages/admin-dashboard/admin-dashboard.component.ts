@@ -16,6 +16,7 @@ import { PdfDialogComponent } from '../pdf-dialog/pdf-dialog.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MasterService } from 'app/services/master.service';
 import { ExcelService } from 'app/services/excel.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'adminDashboard',
@@ -92,6 +93,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   // Private
   private _unsubscribeAll: Subject<any>;
 
+  Today: Date = new Date();
+  BackupDays: number = environment.backupDays;
+
 
   constructor(public _matDialog: MatDialog,
     public dashboardService: DashboardService,
@@ -107,19 +111,19 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.tab3 = false;
     this.tab4 = false;
     this.documentFormGroup = this._formBuilder.group({
-      FromInvoice: ['', Validators.pattern],
-      ToInvoice: ['', Validators.pattern],
+      FromInvoice: ['', Validators.pattern("^\d+$")],
+      ToInvoice: ['', Validators.pattern("^\d+$")],
       PlantID: [''],
       DocumentTypeID: [''],
       OutputTypeID: [''],
       Authority: [''],
-      FromDate: [''],
-      ToDate: ['']
+      FromDate: [new Date(this.Today.getFullYear(), this.Today.getMonth(), this.Today.getDate() - this.BackupDays)],
+      ToDate: [this.Today]
     });
     this.authenticationDetails = new AuthenticationDetails();
     this.IsProgressBarVisibile = true;
     this.IsDSSStatusCountCompleted = false;
-    this.IsAllSignedDocumentCompleted = false;
+    this.IsAllSignedDocumentCompleted = true;
     this.AllPlantCompleted = false;
     this.AllDocumentTypeNameCompleted = false;
     this.AllOutputTypeNameCompleted = false;
@@ -141,7 +145,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this._router.navigate(['/auth/login']);
       } else {
         this.GetDSSStatusCounts();
-        this.GetAllSignedDocument();
+        // this.GetAllSignedDocument();
         // this.GetAllDocumentTypeNames();
         this.GetAllPlants();
         this.GetAllDocumentTypes();
@@ -149,6 +153,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.GetAllDocumentOutputTypeMapViews();
         this.GetAllNormalUsers();
         this.GetAllUserPlantMapViews();
+        this.GetAllInvoicesBasedOnDate();
       }
     } else {
       this._router.navigate(['/auth/login']);
@@ -165,7 +170,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.tab2 = false;
     this.tab3 = false;
     this.tab4 = false;
-    this.GetAllSignedDocument();
+    this.GetAllInvoicesBasedOnDate();
     this.ResetControl();
   }
   tabtwo(): void {
@@ -198,6 +203,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.documentFormGroup.reset();
     Object.keys(this.documentFormGroup.controls).forEach(key => {
       this.documentFormGroup.get(key).markAsUntouched();
+    });
+    this.documentFormGroup.patchValue({
+      FromDate: new Date(this.Today.getFullYear(), this.Today.getMonth(), this.Today.getDate() - this.BackupDays),
+      ToDate: this.Today
     });
     this.AllFilteredOutputTypes = this.AllOutputTypes;
     this.AllFilteredUsers = this.AllUsers;
