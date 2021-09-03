@@ -14,7 +14,7 @@
               </div>
               <div fxFlex="50%">
                 <h2 class="subTitleClass">
-                  {{DSSStatusCount?.SignedDocumnentCount}}
+                  {{DSSStatusCount?.SignedDocumnentCount?.toLocaleString('en-IN')}}
                 </h2>
               </div>
             </div>
@@ -29,7 +29,7 @@
               </div>
               <div fxFlex="50%">
                 <h2 class="subTitleClass">
-                  {{DSSStatusCount?.ConfigurationCount}}
+                  {{DSSStatusCount?.ConfigurationCount?.toLocaleString('en-IN')}}
                 </h2>
               </div>
             </div>
@@ -44,7 +44,7 @@
               </div>
               <div fxFlex="50%">
                 <h2 class="subTitleClass">
-                  {{DSSStatusCount?.ExpiryCerificateCount}}
+                  {{DSSStatusCount?.ExpiryCerificateCount?.toLocaleString('en-IN')}}
                 </h2>
               </div>
             </div>
@@ -58,7 +58,7 @@
               </div>
               <div fxFlex="50%">
                 <h2 class="subTitleClass">
-                  {{DSSStatusCount?.ErrorDocumentCount}}
+                  {{DSSStatusCount?.ErrorDocumentCount?.toLocaleString('en-IN')}}
                 </h2>
               </div>
             </div>
